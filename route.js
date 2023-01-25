@@ -9,7 +9,7 @@ rootDiv.innerHTML = routes[window.location.pathname];
 
 const onNavigate = (pathname) => {
     window.history.pushState({}, pathname, window.location.origin + pathname)
-    canGuard(window.location.pathname) ? rootDiv.innerHTML = routes[pathname] : '<app-login></app-login>'
+    canGuard(pathname) ? rootDiv.innerHTML = routes[pathname] : '<app-login></app-login>'
 }
 
 const canGuard = (route) => {
@@ -17,7 +17,7 @@ const canGuard = (route) => {
         if(localStorage.getItem('token') !== null) {
             return true;
         } else {
-            window.localStorage.pathname = '/'
+            window.location.pathname = '/'
             return false;
         }
     } else {
