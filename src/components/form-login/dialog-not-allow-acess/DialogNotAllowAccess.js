@@ -4,7 +4,7 @@ class DialogNotAllowAccess extends HTMLElement {
         console.log('contructor ', this)
 
         this.innerHTML = `
-        <button type="button" class="btn btn-primary by-modal" data-toggle="modal" data-target="#exampleModal">
+        <button type="button" class="btn btn-primary by-modal" data-toggle="modal" data-target="#exampleModal" style="display: none;">
             Launch demo modal
         </button>
 
@@ -13,17 +13,13 @@ class DialogNotAllowAccess extends HTMLElement {
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Sem permissão de cesso</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    Você não possui permissão para acessar o dashboard. Tente criar um cadastro!
                 </div>
                 </div>
             </div>

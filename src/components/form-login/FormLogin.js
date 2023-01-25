@@ -65,7 +65,7 @@ async function handleLogin() {
        await window.login('http://localhost:3000/auth/login', username)
         .then(response => response.json())
         .then(response => {
-            // localStorage.setItem('token', response.token)
+            localStorage.setItem('token', response.token)
             onNavigate('/dashboard')
         })
     }
