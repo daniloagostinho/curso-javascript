@@ -1,25 +1,23 @@
-class DialogNotAllowAccess extends HTMLElement {
+class DialogUserNotFound extends HTMLElement {
     constructor() {
         super();
         console.log('contructor ', this)
 
         this.innerHTML = `
-        <button type="button" class="btn btn-primary by-modal" data-toggle="modal" data-target="#exampleModal" style="display: none;">
-            Launch demo modal
-        </button>
+        <button type="button" class="btn modal btn-primary modal-user-not-found" data-toggle="modal" data-target="#modalUserNotFound" style="display: none;"></button>
 
         <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal modal-user-not-found fade" id="modalUserNotFound" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Sem permissão de cesso</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Usuário não encontrado</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    Você não possui permissão para acessar o dashboard. Tente criar um cadastro!
+                    Não foi possível encontrar seu usuário na base. Verifique se você se cadastrou!
                 </div>
                 </div>
             </div>
@@ -37,5 +35,5 @@ class DialogNotAllowAccess extends HTMLElement {
 }
 
 if('customElements' in window) {
-    customElements.define('app-dialog-not-allow-access', DialogNotAllowAccess);
+    customElements.define('app-dialog-user-not-found', DialogUserNotFound);
 }

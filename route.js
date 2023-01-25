@@ -18,7 +18,6 @@ const canGuard = (route) => {
             return true;
         } else {
             window.localStorage.pathname = '/'
-            openDialog();
             return false;
         }
     } else {
@@ -26,14 +25,6 @@ const canGuard = (route) => {
     }
 }
 
-
 window.onpopstate = () => {
     rootDiv.innerHTML = routes[window.location.pathname]
-}
-
-
-const openDialog = () => {
-    const dialog = document.querySelector('.by-modal')
-    console.log(dialog)
-    dialog.click();
 }
