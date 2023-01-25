@@ -3,9 +3,9 @@ class Dashboard extends HTMLElement {
         super();
         console.log('contructor ', this)
 
-        this.innerHTML = `
-            <h1>Bem vindo ao dashboard</h1>
-        `
+        fetch("src/components/dashboard/Dashboard.html")
+        .then(response=> response.text())
+        .then(text=> this.innerHTML = text);
     }
 
     connectedCallback () {

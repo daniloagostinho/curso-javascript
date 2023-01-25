@@ -3,42 +3,9 @@ class FormLogin extends HTMLElement {
         super();
         console.log('contructor ', this)
 
-        this.innerHTML = `
-            <form>
-                <div class="input-group mb-3">
-                <input
-                    type="email"
-                    class="form-control email"
-                    placeholder="E-mail"
-                    aria-label="email"
-                    aria-describedby="email"
-                />
-                </div>
-            
-                <div class="input-group mb-3">
-                <input
-                    type="password"
-                    class="form-control password"
-                    placeholder="Senha"
-                    aria-label="password"
-                    aria-describedby="password"
-                />
-                </div>
-            
-                <div class="d-grid gap-2">
-                <button class="btn btn-primary btn-login btn-block" onclick="handleLogin(); return false">
-                    ENTRAR
-                </button>
-                </div>
-            
-                <p class="text-custom">
-                Se você ainda não tiver os dados de login, será necessário realizar um
-                cadastro.
-                </p>
-            </form>
-                    
-            <app-dialog-user-not-found></app-dialog-user-not-found>
-        `
+        fetch("src/components/form-login/FormLogin.html")
+        .then(response=> response.text())
+        .then(text=> this.innerHTML = text);
     }
 
     connectedCallback () {
