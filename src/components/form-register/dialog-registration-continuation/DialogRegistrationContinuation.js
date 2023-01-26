@@ -80,20 +80,18 @@ const handleRegisterContinuation = async() => {
         confirmPassword
     }
 
-    if(verifyEmptyValueDialog(name, email, age, image, password, confirmPassword)) {
+    if(checkEmptyModalFields(name, email, age, image, password, confirmPassword)) {
        await window.registerUser('http://localhost:3000/auth/register/user', payload)
         .then(response => response.json())
         .then(response => {
            onNavigate('/')
-           const modal = document.querySelector('.modal-backdrop')
-           modal.classList.remove("show")
         })
     } else {
         alert('Por favor preencha os campos vazios!')
     }
 }
 
-const verifyEmptyValueDialog = (name, email, age, image, password, confirmPassword) => {
+const checkEmptyModalFields = (name, email, age, image, password, confirmPassword) => {
     if(
         name !== ''
         && email !== ''
