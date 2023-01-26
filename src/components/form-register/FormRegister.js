@@ -17,6 +17,54 @@ class FormRegister extends HTMLElement {
 	}
 }
 
+state = {
+    name: '',
+    email: '',
+    age: ''
+}
+
+async function handleFormRegister() {
+    const name = document.querySelector('.name').value;
+    const email = document.querySelector('.email-register').value;
+    const age = document.querySelector('.age').value;
+
+    // const username = {
+    //     email, 
+    //     password
+    // }
+
+    if(verifyEmptyValue(name, email, age)) {
+        setState(name, email, age)
+        openDialogRegistrationContinuation();
+    } else {
+        openDialogRequiredField();
+    }
+
+}
+const verifyEmptyValue = (name, email, age) => {
+    if(name !== '' && email !== '' && age !== '') {
+        return true;
+    }
+
+    return false;
+}
+
+const openDialogRequiredField = () => {
+    const dialog = document.querySelector('.modal-required-field')
+    dialog.click();
+}
+
+const setState = (name, email, age) => {
+    state.name = name;
+    state.email = email;
+    state.age = age;
+}
+
+const openDialogRegistrationContinuation = () => {
+    const dialog = document.querySelector('.modal-registration-continuation')
+    dialog.click();
+}
+
 if('customElements' in window) {
     customElements.define('app-form-register', FormRegister);
 }

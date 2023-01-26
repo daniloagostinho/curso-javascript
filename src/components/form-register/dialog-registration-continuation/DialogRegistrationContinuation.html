@@ -1,0 +1,124 @@
+<button
+  type="button"
+  class="btn modal btn-primary modal-registration-continuation"
+  data-toggle="modal"
+  data-target="#modalRegistrationContinuation"
+  style="display: none"
+></button>
+
+<!-- Modal -->
+<div
+  class="modal modal-registration-continuation fade"
+  id="modalRegistrationContinuation"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Continue seu cadastro!
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control nameInput"
+              placeholder="Nome"
+              aria-label="name"
+              aria-describedby="name"
+              formControlName="name"
+            />
+          </div>
+
+          <div class="input-group mb-3">
+            <input
+              type="email"
+              class="form-control emailInput"
+              placeholder="Email"
+              aria-label="email"
+              aria-describedby="email"
+              formControlName="email"
+            />
+          </div>
+
+          <div class="input-group mb-3">
+            <input
+              type="number"
+              class="form-control ageInput"
+              placeholder="Idade"
+              aria-label="age"
+              aria-describedby="age"
+              formControlName="age"
+            />
+          </div>
+
+          <div class="image-block">
+            <img
+              class="circle"
+              alt=""
+            />
+          </div>
+
+          <label for="basic-url">Adicione uma foto ao perfil</label>
+          <div class="input-group mb-3">
+            <input
+              type="file"
+              class="form-control"
+              aria-label="imgProfile"
+              aria-describedby="imgProfile"
+            />
+          </div>
+
+          <div class="input-group mb-3">
+            <input
+              type="password"
+              class="form-control"
+              placeholder="Senha"
+              aria-label="Password"
+              aria-describedby="password"
+              formControlName="password"
+            />
+          </div>
+
+          <div class="input-group mb-3">
+            <input
+              type="password"
+              class="form-control"
+              placeholder="Confirmar senha"
+              aria-label="confirmPassword"
+              aria-describedby="confirmPassword"
+              formControlName="confirmPassword"
+            />
+            <br />
+            <!-- <div>
+              <p class="warn">
+                As senhas não são iguais!!
+              </p>
+            </div> -->
+          </div>
+
+          <div class="d-grid gap-2 mt-4">
+            <button
+              class="btn btn-primary btn-continuation-register"
+              type="submit"
+            >
+              FINALIZAR CADASTRO
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

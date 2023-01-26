@@ -2,7 +2,7 @@
   <div class="input-group mb-3">
     <input
       type="text"
-      class="form-control"
+      class="form-control name"
       placeholder="Nome"
       aria-label="Username"
       aria-describedby="basic-addon1"
@@ -12,7 +12,7 @@
   <div class="input-group mb-3">
     <input
       type="email"
-      class="form-control"
+      class="form-control email-register"
       placeholder="Email"
       aria-label="Username"
       aria-describedby="basic-addon1"
@@ -22,7 +22,7 @@
   <div class="input-group mb-3">
     <input
       type="number"
-      class="form-control"
+      class="form-control age"
       placeholder="Idade"
       aria-label="Age"
       aria-describedby="basic-addon1"
@@ -35,8 +35,12 @@
       type="button"
       data-toggle="modal"
       data-target="#exampleModal"
+      onclick="handleFormRegister(); return false"
     >
       CONTINUAR CADASTRO
     </button>
   </div>
 </form>
+
+<app-dialog-required-field></app-dialog-required-field>
+<app-dialog-registration-continuation></app-dialog-registration-continuation>
