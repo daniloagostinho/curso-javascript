@@ -3,7 +3,7 @@ class DialogUserNotFound extends HTMLElement {
         super();
         console.log('contructor ', this)
 
-        fetch("src/components/form-login/diallog-user-not-found/DialogUserNotFound.html")
+        fetch('src/components/form-login/diallog-user-not-found/DialogUserNotFound.html')
         .then(response=> response.text())
         .then(text=> this.innerHTML = text);
     }

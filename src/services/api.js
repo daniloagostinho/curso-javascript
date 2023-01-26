@@ -1,8 +1,8 @@
 window.login = (url, user) => {
     return fetch(url, {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify(user),
-        headers: {"Content-type": "application/json; charset=UTF-8"}
+        headers: {'Content-type': 'application/json; charset=UTF-8'}
     });
 }
 
@@ -17,7 +17,7 @@ window.registerUser = (url, user) => {
     formData.append('confirmPassword', user.confirmPassword)
 
     return fetch(url, {
-        method: "POST",
+        method: 'POST',
         body: formData
     });
 }

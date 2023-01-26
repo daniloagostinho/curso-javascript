@@ -3,7 +3,7 @@ class DialogRequiredField extends HTMLElement {
         super();
         console.log('contructor ', this)
 
-        fetch("src/components/form-register/dialog-required-field/DialogRequiredField.html")
+        fetch('src/components/form-register/dialog-required-field/DialogRequiredField.html')
         .then(response=> response.text())
         .then(text=> this.innerHTML = text);
     }

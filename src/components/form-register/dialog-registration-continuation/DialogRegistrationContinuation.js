@@ -3,7 +3,7 @@ class DialogRegistrationContinuation extends HTMLElement {
         super();
         console.log('contructor ', this)
 
-        fetch("src/components/form-register/dialog-registration-continuation/DialogRegistrationContinuation.html")
+        fetch('src/components/form-register/dialog-registration-continuation/DialogRegistrationContinuation.html')
         .then(response=> response.text())
         .then(text=> this.innerHTML = text);
     }
@@ -46,7 +46,7 @@ verifyState();
 const setAvatar = () => {
     const imgAvatar = document.querySelector('.avatar')
     console.log(imgAvatar)
-    imgAvatar.src = "assets/images/avatar-default.png"
+    imgAvatar.src = 'assets/images/avatar-default.png'
 }
 
 const onChange = (event) => {
@@ -63,7 +63,7 @@ const onChange = (event) => {
        
     }
 }
-const handleRegisterContinuation = async() => {
+const sendDataToBackend = async() => {
     const name = document.querySelector('.nameInput').value;
     const email = document.querySelector('.emailInput').value;
     const age = document.querySelector('.ageInput').value;
@@ -82,14 +82,30 @@ const handleRegisterContinuation = async() => {
 
     if(checkEmptyModalFields(name, email, age, image, password, confirmPassword)) {
        await window.registerUser('http://localhost:3000/auth/register/user', payload)
-        .then(response => response.json())
+       .then(catchApiDialogRegistrationContinuationError) 
+       .then(response => response.json())
         .then(response => {
            onNavigate('/')
         })
+        .catch(handleDialogRegistrationContinuationErrorTypes)
     } else {
         alert('Por favor preencha os campos vazios!')
     }
 }
+
+const catchApiDialogRegistrationContinuationError = (response) => {
+    if (!response.ok) {
+        throw Error(response.statusText);
+    }
+    return response;
+}
+
+const handleDialogRegistrationContinuationErrorTypes = (error) => {
+    if(error == 'Error: Unprocessable Entity') {
+        alert('Já existe uma conta com esse e-mail!')
+    }
+}
+
 
 const checkEmptyModalFields = (name, email, age, image, password, confirmPassword) => {
     if(

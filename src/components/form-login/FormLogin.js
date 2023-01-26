@@ -3,7 +3,7 @@ class FormLogin extends HTMLElement {
         super();
         console.log('contructor ', this)
 
-        fetch("src/components/form-login/FormLogin.html")
+        fetch('src/components/form-login/FormLogin.html')
         .then(response=> response.text())
         .then(text=> this.innerHTML = text);
     }
@@ -29,33 +29,33 @@ class FormLogin extends HTMLElement {
 
     if(email !== '' && password !== '') {
        await window.login('http://localhost:3000/auth/login', username)
-       .then(handleErrors)
+       .then(catchApiError)
         .then(response => response.json())
         .then(response => {
             localStorage.setItem('token', response.token)
             onNavigate('/dashboard')
         })
-        .catch(typeOfErros)
+        .catch(handleErrorTypes)
     }
 
 }
 
 
-const handleErrors = (response) => {
+const catchApiError = (response) => {
     if (!response.ok) {
         throw Error(response.statusText);
     }
     return response;
 }
 
-const typeOfErros = (error) => {
+const handleErrorTypes = (error) => {
     if(error == 'Error: Not Found') {
-        openDialogUserNotFound();
+        openModalUserNotFound();
         console.log('usuario nao encontrado!!')
     }
 }
 
-const openDialogUserNotFound = () => {
+const openModalUserNotFound = () => {
     const dialog = document.querySelector('.modal-user-not-found')
     dialog.click();
 }

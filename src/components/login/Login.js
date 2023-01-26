@@ -3,7 +3,7 @@ class Login extends HTMLElement {
         super();
         console.log('contructor ', this)
 
-        fetch("src/components/login/Login.html")
+        fetch('src/components/login/Login.html')
         .then(response=> response.text())
         .then(text=> this.innerHTML = text);
     }
