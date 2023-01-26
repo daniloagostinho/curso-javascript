@@ -19,7 +19,7 @@ class DialogRegistrationContinuation extends HTMLElement {
 
 const values = [];
 
-let stateDialogRegistrationContinuation = {};
+let userRegistrationDataDialogRegistrationContinuation = {};
 
 const loadValueInput = () => {
     if(values.length === 3) {
@@ -29,19 +29,17 @@ const loadValueInput = () => {
         setAvatar();
     }
 }
-const verifyState = () => {
-    state = new Proxy({}, {
+const verifyuserRegistrationData = () => {
+    userRegistrationData = new Proxy({}, {
         set: function(target, property, value) {
-            // do something
             values.push(value)
-            console.log(values)
             loadValueInput();
             target[property] = value;
         }
     });
 }
 
-verifyState();
+verifyuserRegistrationData();
 
 const setAvatar = () => {
     const imgAvatar = document.querySelector('.avatar')
@@ -59,7 +57,7 @@ const onChange = (event) => {
 
       reader.readAsDataURL(file)
 
-      stateDialogRegistrationContinuation.image = file;
+      userRegistrationDataDialogRegistrationContinuation.image = file;
        
     }
 }
@@ -67,7 +65,7 @@ const sendDataToBackend = async() => {
     const name = document.querySelector('.nameInput').value;
     const email = document.querySelector('.emailInput').value;
     const age = document.querySelector('.ageInput').value;
-    const image = stateDialogRegistrationContinuation.image;
+    const image = userRegistrationDataDialogRegistrationContinuation.image;
     const password = document.querySelector('.passwordInput').value;
     const confirmPassword = document.querySelector('.confirmPasswordInput').value;
 

@@ -17,7 +17,7 @@ class FormRegister extends HTMLElement {
 	}
 }
 
-state = {
+userRegistrationData = {
     name: '',
     email: '',
     age: ''
@@ -34,7 +34,7 @@ async function handleFormRegister() {
     // }
 
     if(verifyEmptyValue(name, email, age)) {
-        setState(name, email, age)
+        setuserRegistrationData(name, email, age)
         openDialogRegistrationContinuation();
     } else {
         openDialogRequiredField();
@@ -54,10 +54,10 @@ const openDialogRequiredField = () => {
     dialog.click();
 }
 
-const setState = (name, email, age) => {
-    state.name = name;
-    state.email = email;
-    state.age = age;
+const setuserRegistrationData = (name, email, age) => {
+    userRegistrationData.name = name;
+    userRegistrationData.email = email;
+    userRegistrationData.age = age;
 }
 
 const openDialogRegistrationContinuation = () => {
