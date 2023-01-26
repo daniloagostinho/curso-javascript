@@ -24,7 +24,6 @@ const loadValueInput = (name, email, age) => {
     document.querySelector('.emailInput').value = email
     document.querySelector('.ageInput').value = age
     setAvatar();
-
 }
 const verifyUserRegistrationData = () => {
     userRegistrationData = new Proxy({}, {
