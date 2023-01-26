@@ -66,7 +66,7 @@
 
           <div class="image-block">
             <img
-              class="circle"
+              class="circle avatar"
               alt=""
             />
           </div>
@@ -78,6 +78,7 @@
               class="form-control"
               aria-label="imgProfile"
               aria-describedby="imgProfile"
+              onchange="onChange(event)"
             />
           </div>
 
@@ -102,16 +103,16 @@
               formControlName="confirmPassword"
             />
             <br />
-            <!-- <div>
+            <div style="display: none;" class="errorMessage">
               <p class="warn">
                 As senhas não são iguais!!
               </p>
-            </div> -->
+            </div>
           </div>
 
           <div class="d-grid gap-2 mt-4">
             <button
-              class="btn btn-primary btn-continuation-register"
+              class="btn btn-primary btn-block btn-continuation-register"
               type="submit"
             >
               FINALIZAR CADASTRO

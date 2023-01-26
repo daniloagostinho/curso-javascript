@@ -24,6 +24,7 @@ const loadValueInput = () => {
         document.querySelector('.nameInput').value = values[0]
         document.querySelector('.emailInput').value = values[1]
         document.querySelector('.ageInput').value = values[2]
+        setAvatar();
     }
 }
 const verifyState = () => {
@@ -36,10 +37,31 @@ const verifyState = () => {
             target[property] = value;
         }
     });
-
 }
 
 verifyState();
+
+const setAvatar = () => {
+    const imgAvatar = document.querySelector('.avatar')
+    console.log(imgAvatar)
+    imgAvatar.src = "assets/images/avatar-default.png"
+}
+
+const onChange = (event) => {
+    if(event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+
+      const reader = new FileReader();
+
+      reader.onload = (e) => ( document.querySelector('.avatar').src = reader.result)
+
+      reader.readAsDataURL(file)
+
+    //   this.form.patchValue({
+    //     avatar: file
+    //   })
+    }
+}
 
 if('customElements' in window) {
     customElements.define('app-dialog-registration-continuation', DialogRegistrationContinuation);
