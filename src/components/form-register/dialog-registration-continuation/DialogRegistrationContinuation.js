@@ -18,32 +18,35 @@ class DialogRegistrationContinuation extends HTMLElement {
 }
 
 const values = [];
+const fieldsForm = ['.nameInput', '.emailInput', '.ageInput']
 
 let userRegistrationDataDialogRegistrationContinuation = {};
 
-const loadValueInput = () => {
-    if(values.length === 3) {
-        document.querySelector('.nameInput').value = values[0]
-        document.querySelector('.emailInput').value = values[1]
-        document.querySelector('.ageInput').value = values[2]
-        setAvatar();
-    }
+const loadValueInput = (name, email, age) => {
+    document.querySelector('.nameInput').value = name
+    document.querySelector('.emailInput').value = email
+    document.querySelector('.ageInput').value = age
+    setAvatar();
+
 }
-const verifyuserRegistrationData = () => {
+const verifyUserRegistrationData = () => {
     userRegistrationData = new Proxy({}, {
         set: function(target, property, value) {
-            values.push(value)
-            loadValueInput();
+
+            const name = value.name;
+            const email = value.email;
+            const age = value.age;
+
+            loadValueInput(name, email, age);
             target[property] = value;
         }
     });
 }
 
-verifyuserRegistrationData();
+verifyUserRegistrationData();
 
 const setAvatar = () => {
     const imgAvatar = document.querySelector('.avatar')
-    console.log(imgAvatar)
     imgAvatar.src = 'assets/images/avatar-default.png'
 }
 
@@ -83,6 +86,7 @@ const sendDataToBackend = async() => {
        .then(catchApiDialogRegistrationContinuationError) 
        .then(response => response.json())
         .then(response => {
+          alert('Cadastro realizado com sucesso!')
            onNavigate('/')
         })
         .catch(handleDialogRegistrationContinuationErrorTypes)
