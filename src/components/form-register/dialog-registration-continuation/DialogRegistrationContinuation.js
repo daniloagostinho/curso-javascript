@@ -17,10 +17,7 @@ class DialogRegistrationContinuation extends HTMLElement {
 	}
 }
 
-const values = [];
-const fieldsForm = ['.nameInput', '.emailInput', '.ageInput']
-
-let userRegistrationDataDialogRegistrationContinuation = {};
+let uploadedAvatar;
 
 const loadValueInput = (name, email, age) => {
     document.querySelector('.nameInput').value = name
@@ -60,7 +57,7 @@ const onChange = (event) => {
 
       reader.readAsDataURL(file)
 
-      userRegistrationDataDialogRegistrationContinuation.image = file;
+      uploadedAvatar = file;
        
     }
 }
@@ -68,7 +65,7 @@ const sendDataToBackend = async() => {
     const name = document.querySelector('.nameInput').value;
     const email = document.querySelector('.emailInput').value;
     const age = document.querySelector('.ageInput').value;
-    const image = userRegistrationDataDialogRegistrationContinuation.image;
+    const image = uploadedAvatar;
     const password = document.querySelector('.passwordInput').value;
     const confirmPassword = document.querySelector('.confirmPasswordInput').value;
 
