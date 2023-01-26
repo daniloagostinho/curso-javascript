@@ -18,7 +18,7 @@ class FormLogin extends HTMLElement {
 	}
 }
 
-async function handleLogin() {
+ const handleLogin = async () => {
     const email = document.querySelector('.email').value;
     const password = document.querySelector('.password').value;
 

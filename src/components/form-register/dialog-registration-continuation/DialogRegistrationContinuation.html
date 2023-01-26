@@ -38,7 +38,6 @@
               placeholder="Nome"
               aria-label="name"
               aria-describedby="name"
-              formControlName="name"
             />
           </div>
 
@@ -49,7 +48,6 @@
               placeholder="Email"
               aria-label="email"
               aria-describedby="email"
-              formControlName="email"
             />
           </div>
 
@@ -60,7 +58,6 @@
               placeholder="Idade"
               aria-label="age"
               aria-describedby="age"
-              formControlName="age"
             />
           </div>
 
@@ -85,22 +82,20 @@
           <div class="input-group mb-3">
             <input
               type="password"
-              class="form-control"
+              class="form-control passwordInput"
               placeholder="Senha"
               aria-label="Password"
               aria-describedby="password"
-              formControlName="password"
             />
           </div>
 
           <div class="input-group mb-3">
             <input
               type="password"
-              class="form-control"
-              placeholder="Confirmar senha"
+              class="form-control confirmPasswordInput"
+              placeholder="Confirmar"
               aria-label="confirmPassword"
               aria-describedby="confirmPassword"
-              formControlName="confirmPassword"
             />
             <br />
             <div style="display: none;" class="errorMessage">
@@ -113,7 +108,8 @@
           <div class="d-grid gap-2 mt-4">
             <button
               class="btn btn-primary btn-block btn-continuation-register"
-              type="submit"
+              type="button"
+              onclick="handleRegisterContinuation(); return false"
             >
               FINALIZAR CADASTRO
             </button>

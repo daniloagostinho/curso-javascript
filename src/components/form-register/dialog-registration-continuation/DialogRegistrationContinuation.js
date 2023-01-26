@@ -19,6 +19,8 @@ class DialogRegistrationContinuation extends HTMLElement {
 
 const values = [];
 
+let stateDialogRegistrationContinuation = {};
+
 const loadValueInput = () => {
     if(values.length === 3) {
         document.querySelector('.nameInput').value = values[0]
@@ -57,10 +59,52 @@ const onChange = (event) => {
 
       reader.readAsDataURL(file)
 
-    //   this.form.patchValue({
-    //     avatar: file
-    //   })
+      stateDialogRegistrationContinuation.image = file;
+       
     }
+}
+const handleRegisterContinuation = async() => {
+    const name = document.querySelector('.nameInput').value;
+    const email = document.querySelector('.emailInput').value;
+    const age = document.querySelector('.ageInput').value;
+    const image = stateDialogRegistrationContinuation.image;
+    const password = document.querySelector('.passwordInput').value;
+    const confirmPassword = document.querySelector('.confirmPasswordInput').value;
+
+    const payload = {
+        name,
+        email,
+        age, 
+        image,
+        password,
+        confirmPassword
+    }
+
+    console.log('payload -->> ', payload)
+    if(verifyEmptyValueDialog(name, email, age, image, password, confirmPassword)) {
+       await window.registerUser('http://localhost:3000/auth/register/user', payload)
+        .then(response => response.json())
+        .then(response => {
+           console.log('response -->> ', response)
+        //    onNavigate('/dashboard')
+        })
+    } else {
+        alert('Por favor preencha os campos vazios!')
+    }
+}
+
+const verifyEmptyValueDialog = (name, email, age, image, password, confirmPassword) => {
+    if(
+        name !== ''
+        && email !== ''
+        && age !== ''
+        && image !== ''
+        && password
+        && confirmPassword) {
+        return true;
+    }
+
+    return false;
 }
 
 if('customElements' in window) {
