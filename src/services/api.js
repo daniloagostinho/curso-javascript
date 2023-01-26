@@ -7,7 +7,6 @@ window.login = (url, user) => {
 }
 
 window.registerUser = (url, user) => {
-    console.log('user -->> ', user)
     const formData = new FormData();
 
     formData.append('name', user.name)

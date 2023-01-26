@@ -80,13 +80,13 @@ const handleRegisterContinuation = async() => {
         confirmPassword
     }
 
-    console.log('payload -->> ', payload)
     if(verifyEmptyValueDialog(name, email, age, image, password, confirmPassword)) {
        await window.registerUser('http://localhost:3000/auth/register/user', payload)
         .then(response => response.json())
         .then(response => {
-           console.log('response -->> ', response)
-        //    onNavigate('/dashboard')
+           onNavigate('/')
+           const modal = document.querySelector('.modal-backdrop')
+           modal.classList.remove("show")
         })
     } else {
         alert('Por favor preencha os campos vazios!')
