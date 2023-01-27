@@ -80,7 +80,7 @@ const sendDataToBackend = async() => {
     console.log('payload', payload)
 
     if(checkEmptyModalFields(name, email, age, image, password, confirmPassword)) {
-        if(checkPasswordEqual(password, confirmPassword)) {
+        if(checkPasswordsEquals(password, confirmPassword)) {
             const btnCloseModal = document.querySelector('.btn-continuation-register')
             btnCloseModal.setAttribute("data-dismiss", "modal");  
             await window.registerUser('http://localhost:3000/auth/register/user', payload)
@@ -127,7 +127,7 @@ const checkEmptyModalFields = (name, email, age, image, password, confirmPasswor
     return false;
 }
 
-const checkPasswordEqual = (password, confirmPassword) => {
+const checkPasswordsEquals = (password, confirmPassword) => {
     if(password !== confirmPassword) {
         const errorMessage = document.querySelector('.errorMessage')
         const btnCloseModal = document.querySelector('.btn-continuation-register')
