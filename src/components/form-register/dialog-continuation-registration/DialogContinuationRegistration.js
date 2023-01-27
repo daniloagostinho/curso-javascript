@@ -1,9 +1,9 @@
-class DialogRegistrationContinuation extends HTMLElement {
+class DialogContinuationRegistration extends HTMLElement {
     constructor() {
         super();
         console.log('contructor ', this)
 
-        fetch('src/components/form-register/dialog-registration-continuation/DialogRegistrationContinuation.html')
+        fetch('src/components/form-register/dialog-continuation-registration/DialogContinuationRegistration.html')
         .then(response=> response.text())
         .then(text=> this.innerHTML = text);
     }
@@ -95,6 +95,8 @@ const sendDataToBackend = async() => {
             return;
         }
     } else {
+        const btnCloseModal = document.querySelector('.btn-continuation-register')
+        btnCloseModal.removeAttribute("data-dismiss");
         alert('Por favor preencha os campos vazios!')
     }
 }
@@ -140,5 +142,5 @@ const checkPasswordsEquals = (password, confirmPassword) => {
 }
 
 if('customElements' in window) {
-    customElements.define('app-dialog-registration-continuation', DialogRegistrationContinuation);
+    customElements.define('app-dialog-continuation-registration', DialogContinuationRegistration);
 }

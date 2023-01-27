@@ -37,7 +37,7 @@ async function handleFormRegister() {
     ageInputValue = document.querySelector('.ageInputValue').value;
 
     if(verifyEmptyValue(nameInputValue, emailInputValue, ageInputValue)) {
-        openDialogRegistrationContinuation();
+        openDialogContinuationRegistration();
     } else {
         openDialogRequiredField();
     }
@@ -64,10 +64,10 @@ const setuserRegistrationData = (name, email, age) => {
     }
 }
 
-const openDialogRegistrationContinuation = () => {
+const openDialogContinuationRegistration = () => {
     setValuesToVariables();
 
-    const dialog = document.querySelector('.modal-registration-continuation')
+    const dialog = document.querySelector('.dialog-continuation-registration')
     dialog.click();
 }
 
