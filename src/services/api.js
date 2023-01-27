@@ -1,4 +1,4 @@
-window.login = (url, user) => {
+function login (url, user) {
     return fetch(url, {
         method: 'POST',
         body: JSON.stringify(user),
@@ -6,7 +6,7 @@ window.login = (url, user) => {
     });
 }
 
-window.registerUser = (url, user) => {
+function registerUser (url, user) {
     const formData = new FormData();
 
     formData.append('name', user.name)
@@ -21,3 +21,5 @@ window.registerUser = (url, user) => {
         body: formData
     });
 }
+
+export {login, registerUser}

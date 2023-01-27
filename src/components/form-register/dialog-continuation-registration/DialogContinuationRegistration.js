@@ -46,7 +46,7 @@ const setAvatar = () => {
     imgAvatar.src = 'assets/images/avatar-default.png'
 }
 
-const onChange = (event) => {
+const uploadAvatar = (event) => {
     if(event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
 
@@ -76,14 +76,12 @@ const sendDataToBackend = async() => {
         password,
         confirmPassword
     }
-
-    console.log('payload', payload)
-
+    
     if(checkEmptyModalFields(name, email, age, image, password, confirmPassword)) {
         if(checkPasswordsEquals(password, confirmPassword)) {
             const btnCloseModal = document.querySelector('.btn-continuation-register')
             btnCloseModal.setAttribute("data-dismiss", "modal");  
-            await window.registerUser('http://localhost:3000/auth/register/user', payload)
+            await registerUser('http://localhost:3000/auth/register/user', payload)
             .then(catchApiDialogError) 
             .then(response => response.json())
              .then(response => {
