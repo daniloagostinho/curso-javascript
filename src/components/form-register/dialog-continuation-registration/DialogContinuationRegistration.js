@@ -25,16 +25,16 @@ const loadValueInput = (name, email, age) => {
     document.querySelector('.ageInput').value = age
     setAvatar();
 }
+// carrega os dados do formulário anterior
 const verifyUserRegistrationData = () => {
     userRegistrationData = new Proxy({}, {
-        set: function(target, property, value) {
+        set: function(value) {
 
             const name = value.name;
             const email = value.email;
             const age = value.age;
 
             loadValueInput(name, email, age);
-            target[property] = value;
         }
     });
 }
@@ -81,7 +81,7 @@ const sendDataToBackend = async() => {
         if(checkPasswordsEquals(password, confirmPassword)) {
             const btnCloseModal = document.querySelector('.btn-continuation-register')
             btnCloseModal.setAttribute("data-dismiss", "modal");  
-            await registerUser('http://localhost:3000/auth/register/user', payload)
+            await window.registerUser('http://localhost:3000/auth/register/user', payload)
             .then(catchApiDialogError) 
             .then(response => response.json())
              .then(response => {
