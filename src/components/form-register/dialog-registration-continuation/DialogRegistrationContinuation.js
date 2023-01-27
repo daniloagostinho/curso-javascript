@@ -77,28 +77,36 @@ const sendDataToBackend = async() => {
         confirmPassword
     }
 
+    console.log('payload', payload)
+
     if(checkEmptyModalFields(name, email, age, image, password, confirmPassword)) {
-       await window.registerUser('http://localhost:3000/auth/register/user', payload)
-       .then(catchApiDialogRegistrationContinuationError) 
-       .then(response => response.json())
-        .then(response => {
-          alert('Cadastro realizado com sucesso!')
-           onNavigate('/')
-        })
-        .catch(handleDialogRegistrationContinuationErrorTypes)
+        if(checkPasswordEqual(password, confirmPassword)) {
+            const btnCloseModal = document.querySelector('.btn-continuation-register')
+            btnCloseModal.setAttribute("data-dismiss", "modal");  
+            await window.registerUser('http://localhost:3000/auth/register/user', payload)
+            .then(catchApiDialogError) 
+            .then(response => response.json())
+             .then(response => {
+               alert('Cadastro realizado com sucesso!')
+                onNavigate('/')
+             })
+             .catch(handleDialogErrorTypes)
+        } else {
+            return;
+        }
     } else {
         alert('Por favor preencha os campos vazios!')
     }
 }
 
-const catchApiDialogRegistrationContinuationError = (response) => {
+const catchApiDialogError = (response) => {
     if (!response.ok) {
         throw Error(response.statusText);
     }
     return response;
 }
 
-const handleDialogRegistrationContinuationErrorTypes = (error) => {
+const handleDialogErrorTypes = (error) => {
     if(error == 'Error: Unprocessable Entity') {
         alert('Já existe uma conta com esse e-mail!')
     }
@@ -117,6 +125,18 @@ const checkEmptyModalFields = (name, email, age, image, password, confirmPasswor
     }
 
     return false;
+}
+
+const checkPasswordEqual = (password, confirmPassword) => {
+    if(password !== confirmPassword) {
+        const errorMessage = document.querySelector('.errorMessage')
+        const btnCloseModal = document.querySelector('.btn-continuation-register')
+        btnCloseModal.removeAttribute("data-dismiss");
+        errorMessage.style.display = 'block'
+        return false;
+    }
+
+    return true;
 }
 
 if('customElements' in window) {
