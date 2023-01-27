@@ -28,13 +28,14 @@ const loadValueInput = (name, email, age) => {
 // carrega os dados do formulário anterior
 const verifyUserRegistrationData = () => {
     userRegistrationData = new Proxy({}, {
-        set: function(value) {
+        set: function(target, property, value) {
 
             const name = value.name;
             const email = value.email;
             const age = value.age;
 
             loadValueInput(name, email, age);
+            target[property] = value;
         }
     });
 }

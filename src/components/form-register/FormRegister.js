@@ -23,18 +23,12 @@ let nameInputValue;
 let emailInputValue;
 let ageInputValue;
 
-const setValuesToVariables = () => {
-    nameInputValue = document.querySelector('.nameInputValue').value;
-    emailInputValue = document.querySelector('.emailInputValue').value;
-    ageInputValue = document.querySelector('.ageInputValue').value;
-
-    setuserRegistrationData(nameInputValue, emailInputValue, ageInputValue)
-}
-
 async function handleFormRegister() {
     nameInputValue = document.querySelector('.nameInputValue').value;
     emailInputValue = document.querySelector('.emailInputValue').value;
     ageInputValue = document.querySelector('.ageInputValue').value;
+   
+    setUserRegistrationData(nameInputValue, emailInputValue, ageInputValue)
 
     if(verifyEmptyValue(nameInputValue, emailInputValue, ageInputValue)) {
         openDialogContinuationRegistration();
@@ -56,7 +50,7 @@ const openDialogRequiredField = () => {
     dialog.click();
 }
 
-const setuserRegistrationData = (name, email, age) => {
+const setUserRegistrationData = (name, email, age) => {
     userRegistrationData.data = {
         name, 
         email,
@@ -65,8 +59,6 @@ const setuserRegistrationData = (name, email, age) => {
 }
 
 const openDialogContinuationRegistration = () => {
-    setValuesToVariables();
-
     const dialog = document.querySelector('.dialog-continuation-registration')
     dialog.click();
 }
