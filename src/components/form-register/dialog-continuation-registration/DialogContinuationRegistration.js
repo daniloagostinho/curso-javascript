@@ -1,76 +1,71 @@
 class DialogContinuationRegistration extends HTMLElement {
     constructor() {
         super();
-
-        console.log('working -> ', this)
+        console.log('contructor ', this)
 
         fetch('src/components/form-register/dialog-continuation-registration/DialogContinuationRegistration.html')
-        .then(response => response.text())
-        .then(text => this.innerHTML = text)
-
-
+        .then(response=> response.text())
+        .then(text=> this.innerHTML = text);
     }
 
     connectedCallback () {
-        console.log('iniciou o componente')
-    }
+		
+	}
 
-    disconnectedCallback() {
-        console.log('destruiu o componente')
-    }
+    disconnectedCallback () {
+		console.log('disconnected', this);
+	}
 }
 
 let uploadedAvatar;
 let password;
 let confirmPassword;
 
-const setImgAvatar = () => {
-    const imgAvatar = document.querySelector('.avatar')
-    imgAvatar.src = "assets/images/avatar-default.png"
-}
-
-setTimeout(() => {
-    setImgAvatar()
-}, 3000)
-
 const loadValueInput = (name, email, age) => {
-    document.querySelector('.nameInput').value = name;
-    document.querySelector('.emailInput').value = email;
-    document.querySelector('.ageInput').value = age;
+    document.querySelector('.nameInput').value = name
+    document.querySelector('.emailInput').value = email
+    document.querySelector('.ageInput').value = age
+    setAvatar();
 }
-
+// carrega os dados do formulário anterior
 const verifyUserRegistrationData = () => {
     userRegistrationData = new Proxy({}, {
-        set: function (target, property, value) {
+        set: function(target, property, value) {
+
+            console.log(target, property, value)
 
             const name = value.name;
-            const email = value.name;
+            const email = value.email;
             const age = value.age;
 
-            loadValueInput(name, email, age)
+            loadValueInput(name, email, age);
             target[property] = value;
         }
-    })
-}
-
-
-const uploadAvatar = (event) => {
-    if(event.target.files && event.target.files.length > 0) {
-        const file = event.target.files[0];
-
-        const reader = new FileReader();
-
-        reader.onload = (e) => (document.querySelector('.avatar').src = reader.result)
-
-        reader.readAsDataURL(file);
-
-        uploadedAvatar = file;
-    }
+    });
 }
 
 verifyUserRegistrationData();
 
-const sendDataToBackend = async () => {
+const setAvatar = () => {
+    const imgAvatar = document.querySelector('.avatar')
+    imgAvatar.src = 'https://raw.githubusercontent.com/daniloagostinho/curso-angular15-na-pratica/main/src/assets/images/default.png'
+}
+
+const uploadAvatar = (event) => {
+    if(event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+
+      const reader = new FileReader();
+
+      reader.onload = (e) => ( document.querySelector('.avatar').src = reader.result)
+
+      reader.readAsDataURL(file)
+
+      uploadedAvatar = file;
+       
+    }
+}
+const sendDataToBackend = async() => {
     const name = document.querySelector('.nameInput').value;
     const email = document.querySelector('.emailInput').value;
     const age = document.querySelector('.ageInput').value;
@@ -78,86 +73,98 @@ const sendDataToBackend = async () => {
     const password = document.querySelector('.passwordInput').value;
     const confirmPassword = document.querySelector('.confirmPasswordInput').value;
 
+    const payload = {
+        name,
+        email,
+        age, 
+        image,
+        password,
+        confirmPassword
+    }
+    
     if(checkEmptyModalFields(name, email, age, image, password, confirmPassword)) {
-        if(checkPasswordEquals()) {
-            configCloseModalSet();
-            alert('Cadastro realizado com sucesso!')
+        if(checkPasswordsEquals(password, confirmPassword)) {
+            const btnCloseModal = document.querySelector('.btn-continuation-register')
+            btnCloseModal.setAttribute("data-dismiss", "modal");  
+            await window.registerUser('http://localhost:3000/auth/register/user', payload)
+            .then(catchApiDialogError) 
+            .then(response => response.json())
+             .then(response => {
+               alert('Cadastro realizado com sucesso!')
+                onNavigate('/')
+             })
+             .catch(handleDialogErrorTypes)
         } else {
-            alert('As senhas não são iguais!')
             return;
         }
     } else {
-        
         const btnCloseModal = document.querySelector('.btn-continuation-register')
-        btnCloseModal.removeAttribute('data-dismiss')
-        alert('Preencha os campos vazios!')
+        btnCloseModal.removeAttribute("data-dismiss");
+        alert('Por favor preencha os campos vazios!')
     }
 }
 
-const showErrorMessage = () => {
-    const errorMessage = document.querySelector('.errorMessage')
-    errorMessage.style.display = 'block';
+const getValuePassword = (event) => {
+    console.log('password -->> ', event.target.value)
+    password = event.target.value
+    checkPasswordEquals();
 }
 
-const hideErrorMessage = () => {
-    const errorMessage = document.querySelector('.errorMessage')
-    errorMessage.style.display = 'none';
+const getValueConfirmPassword = (event) => {
+    confirmPassword = event.target.value
+    console.log('password -->> ', event.target.value)
+    checkPasswordEquals();
 }
 
-const configCloseModalSet = () => {
-    const btnCloseModal = document.querySelector('.btn-continuation-register')
-    btnCloseModal.setAttribute('data-dismiss', 'modal')
+const checkPasswordEquals = () => {
+    console.log(password, confirmPassword)
+    if(password == confirmPassword) {
+        console.log('senhas iguais -->>')
+    }
 }
 
-const configCloseModalRemove = () => {
-    const btnCloseModal = document.querySelector('.btn-continuation-register')
-    btnCloseModal.removeAttribute('data-dismiss')
+
+
+const catchApiDialogError = (response) => {
+    if (!response.ok) {
+        throw Error(response.statusText);
+    }
+    return response;
 }
+
+const handleDialogErrorTypes = (error) => {
+    if(error == 'Error: Unprocessable Entity') {
+        alert('Já existe uma conta com esse e-mail!')
+    }
+}
+
 
 const checkEmptyModalFields = (name, email, age, image, password, confirmPassword) => {
     if(
         name !== ''
         && email !== ''
         && age !== ''
-        && image !== undefined
-        && password !== ''
-        && confirmPassword !== ''
-    ) {
+        && image !== ''
+        && password
+        && confirmPassword) {
         return true;
     }
 
     return false;
 }
 
-const getValuePassword = (event) => {
-    password = event.target.value;
-    checkPasswordEquals();
-    checkPassworsNotEquals();
-}
-
-const getValueConfirmPassword = (event) => {
-    confirmPassword = event.target.value;
-    checkPasswordEquals();
-    checkPassworsNotEquals();
-}
-
-const checkPasswordEquals = () => {
-    if(password !== '' && confirmPassword !== '' && password == confirmPassword) {
-        hideErrorMessage()
-        return true;
+const checkPasswordsEquals = (password, confirmPassword) => {
+    if(password !== confirmPassword) {
+        const errorMessage = document.querySelector('.errorMessage')
+        const btnCloseModal = document.querySelector('.btn-continuation-register')
+        btnCloseModal.removeAttribute("data-dismiss");
+        errorMessage.style.display = 'block'
+        return false;
     }
 
-    return false;
+    return true;
 }
-
-const checkPassworsNotEquals = () => {
-    if(password !== '' && confirmPassword !== '' && password != confirmPassword) {
-        showErrorMessage();
-        configCloseModalRemove();
-    }
-}
-
 
 if('customElements' in window) {
-    customElements.define('app-dialog-continuation-registration', DialogContinuationRegistration)
+    customElements.define('app-dialog-continuation-registration', DialogContinuationRegistration);
 }
