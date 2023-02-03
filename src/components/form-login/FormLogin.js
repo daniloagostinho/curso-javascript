@@ -27,7 +27,7 @@ class FormLogin extends HTMLElement {
         password
     }
 
-    if(email !== '' && password !== '') {
+    if(verifyEmptyFormLoginValue(email, password)) {
        await window.login('http://localhost:3000/auth/login', username)
        .then(catchApiError)
         .then(response => response.json())
@@ -36,10 +36,26 @@ class FormLogin extends HTMLElement {
             onNavigate('/dashboard')
         })
         .catch(handleErrorTypes)
+    } else {
+        
+        openFormLoginDialogRequiredField();
     }
 
 }
 
+const verifyEmptyFormLoginValue = (email, password) => {
+    if(email !== '' && password !== '') {
+        return true;
+    }
+
+    return false;
+}
+
+
+const openFormLoginDialogRequiredField = () => {
+    const dialog = document.querySelector('.modal-required-field')
+    dialog.click();
+}
 
 const catchApiError = (response) => {
     if (!response.ok) {

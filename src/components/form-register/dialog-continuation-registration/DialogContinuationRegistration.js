@@ -108,22 +108,31 @@ const getValuePassword = (event) => {
     console.log('password -->> ', event.target.value)
     password = event.target.value
     checkPasswordEquals();
+    checkPassworsNotEquals();
 }
 
 const getValueConfirmPassword = (event) => {
     confirmPassword = event.target.value
     console.log('password -->> ', event.target.value)
     checkPasswordEquals();
+    checkPassworsNotEquals();
 }
 
 const checkPasswordEquals = () => {
-    console.log(password, confirmPassword)
-    if(password == confirmPassword) {
-        console.log('senhas iguais -->>')
+    if(password !== '' && confirmPassword !== '' && password == confirmPassword) {
+        hideErrorMessage()
+        return true;
     }
+
+    return false;
 }
 
-
+const checkPassworsNotEquals = () => {
+    if(password !== '' && confirmPassword !== '' && password != confirmPassword) {
+        showErrorMessage();
+        configCloseModalRemove();
+    }
+}
 
 const catchApiDialogError = (response) => {
     if (!response.ok) {
@@ -138,6 +147,20 @@ const handleDialogErrorTypes = (error) => {
     }
 }
 
+const showErrorMessage = () => {
+    const errorMessage = document.querySelector('.errorMessage')
+    errorMessage.style.display = 'block';
+}
+
+const hideErrorMessage = () => {
+    const errorMessage = document.querySelector('.errorMessage')
+    errorMessage.style.display = 'none';
+}
+
+const configCloseModalRemove = () => {
+    const btnCloseModal = document.querySelector('.btn-continuation-register')
+    btnCloseModal.removeAttribute('data-dismiss')
+}
 
 const checkEmptyModalFields = (name, email, age, image, password, confirmPassword) => {
     if(

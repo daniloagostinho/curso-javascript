@@ -1,0 +1,35 @@
+.card {
+  width: 100%;
+  padding: 0.8%;
+}
+.btn-default {
+  width: 200px;
+  display: block;
+  position: absolute;
+  right: 10px;
+  top: 40px;
+}
+
+.center,
+.display {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.my-pagination {
+  position: absolute;
+  right: 10px;
+  top: 80%;
+}
+
+.actions li {
+    list-style: none;
+    position: relative;
+    left: -44px;
+}
+.image {
+  float: left;
+  width: 12%;
+  cursor: pointer;
+}

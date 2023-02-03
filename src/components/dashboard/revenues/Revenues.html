@@ -1,0 +1,73 @@
+<div class="container">
+    <div class="card">
+      <!-- INSERIR AQUI MONTHS-OF-REVENUE -->
+      <div class="block-revenues-search">
+        <br>
+        <label class="mat-label"><strong>Encontrar Receita:</strong></label>
+        <input
+          matInput
+          placeholder="Pesquisar Receita"
+        />
+      </div>
+      <button
+        color="primary"
+        class="btn-default btn btn-primary"
+      >
+        Adicionar Receita
+      </button>
+      <div class="center custom-position">
+        <!-- INSERIR AQUI MAT-SPINNER -->
+      </div>
+      <div class="display"></div>
+     
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Tipo de Receita</th>
+            <th scope="col">Valor</th>
+            <th scope="col">Data de Entrada</th>
+            <th scope="col">Id</th>
+            <th scope="col">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Salário</th>
+            <td>R$ 2000</td>
+            <td>02/02/2023</td>
+            <td>jsh8d</td>
+            <td>
+                <ul class="actions">
+                    <li>
+                        <img class="image" src="https://raw.githubusercontent.com/daniloagostinho/curso-angular15-na-pratica/main/src/assets/images/edit.png" alt="">
+                    </li>
+                    <li>
+                        <img class="image" src="https://raw.githubusercontent.com/daniloagostinho/curso-angular15-na-pratica/main/src/assets/images/delete.png" alt="">
+                    </li>
+                </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  
+      <nav aria-label="Page navigation example" class="my-pagination">
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" href="#">Anteriores</a></li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">Próximo</a></li>
+        </ul>
+      </nav>
+  
+      <div class="block-found-revenues">
+        <div class="container">
+          <div class="center">
+            <span>Você ainda não cadastrou receitas para esse mês.</span>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
