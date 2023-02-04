@@ -1,0 +1,89 @@
+<button
+  type="button"
+  class="btn modal btn-primary dialog-add-revenues"
+  data-toggle="modal"
+  data-target="#modalRegistrationContinuation"
+  style="display: none"
+></button>
+
+<!-- Modal -->
+<div
+  class="modal dialog-add-revenues fade"
+  id="modalRegistrationContinuation"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Adicionar receitas
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="typeRevenue">Tipo de Receita</label>
+            <select
+              name="typeRevenue"
+              id="typeRevenue"
+              class="form-control"
+              autocomplete="off"
+            >
+              <option>
+                Salário!
+              </option>
+            </select>
+          </div>
+        
+          <div class="form-group">
+            <label for="value">Valor</label>
+            <input
+              type="text"
+              class="form-control"
+              name="value"
+              id="value"
+              aria-describedby="value"
+              autocomplete="off"
+            />
+          </div>
+          <div class="form-group">
+            <label for="dateEntry">Data de Entrada</label>
+            <input
+              type="date"
+              class="form-control"
+              id="dateEntry"
+              name="dateEntry"
+              aria-describedby="dateEntry"
+            />
+          </div>
+        
+          <div class="form-group">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value="fixedRevenue"
+                name="fixedRevenue"
+                id="fixedRevenue"
+              />
+              <label class="form-check-label" for="fixedRevenue"> Receita Fixa </label>
+            </div>
+          </div>
+        
+          <button class="btn btn-primary" type="submit">Adicionar Receita</button>
+        </form>
+        
+      </div>
+    </div>
+  </div>
+</div>

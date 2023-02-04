@@ -17,6 +17,12 @@ class Revenues extends HTMLElement {
 	}
 }
 
+const openDialogAddRevenues = () => {
+    alert('teste')
+    const dialog = document.querySelector('.dialog-add-revenues')
+    dialog.click();
+}
+
 if('customElements' in window) {
     customElements.define('app-revenues', Revenues);
 }

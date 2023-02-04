@@ -12,6 +12,7 @@
       <button
         color="primary"
         class="btn-default btn btn-primary"
+        onclick="openDialogAddRevenues()"
       >
         Adicionar Receita
       </button>
@@ -52,7 +53,7 @@
   
       <nav aria-label="Page navigation example" class="my-pagination">
         <ul class="pagination">
-          <li class="page-item"><a class="page-link" href="#">Anteriores</a></li>
+          <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
           <li class="page-item"><a class="page-link" href="#">1</a></li>
           <li class="page-item"><a class="page-link" href="#">2</a></li>
           <li class="page-item"><a class="page-link" href="#">3</a></li>
@@ -60,7 +61,7 @@
         </ul>
       </nav>
   
-      <div class="block-found-revenues">
+      <div class="block-register-recipes">
         <div class="container">
           <div class="center">
             <span>Você ainda não cadastrou receitas para esse mês.</span>
@@ -71,3 +72,5 @@
     </div>
   </div>
   
+
+  <app-dialog-add-revenues></app-dialog-add-revenues>
