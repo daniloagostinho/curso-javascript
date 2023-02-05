@@ -36,7 +36,7 @@
             <select
               name="typeRevenue"
               id="typeRevenue"
-              class="form-control"
+              class="form-control typeRevenue"
               autocomplete="off"
             >
             <!--ISERERIR OPTION VIA JS-->
@@ -47,7 +47,7 @@
             <label for="value">Valor</label>
             <input
               type="text"
-              class="form-control"
+              class="form-control valueDialogAddRevenues"
               name="value"
               id="value"
               aria-describedby="value"
@@ -59,7 +59,7 @@
             <label for="dateEntry">Data de Entrada</label>
             <input
               type="date"
-              class="form-control"
+              class="form-control dateEntry"
               id="dateEntry"
               name="dateEntry"
               aria-describedby="dateEntry"
@@ -69,7 +69,7 @@
           <div class="form-group">
             <div class="form-check">
               <input
-                class="form-check-input"
+                class="form-check-input fixedRevenue"
                 type="checkbox"
                 value="fixedRevenue"
                 name="fixedRevenue"
@@ -79,7 +79,7 @@
             </div>
           </div>
         
-          <button class="btn btn-primary" type="submit">Adicionar Receita</button>
+          <button class="btn btn-primary" type="submit" onclick="handleAddRevenues(event)">Adicionar Receita</button>
         </form>
         
       </div>
