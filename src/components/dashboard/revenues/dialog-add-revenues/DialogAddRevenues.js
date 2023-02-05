@@ -44,9 +44,9 @@ const typeRevenues = [
   },
 ];
 
-months = [
+let months = [
     'Janeiro',
-    'Fevereiro',
+    'Revereiro',
     'Março',
     'Abril',
     'Maio',
@@ -57,7 +57,7 @@ months = [
     'Outubro',
     'Novembro',
     'Dezembro',
-  ]
+]
 
 let valueDialogAddRevenues;
 let setStoreRevenues;
@@ -134,7 +134,7 @@ const handleAddRevenues = (event) => {
     const fixedRevenue = document.querySelector('.fixedRevenue').checked;
     let user = localStorage.getItem('user');
 
-    if(verifyDialogAddrevenuesCompletedFields(typeRevenue, value, dateEntry, fixedRevenue)) {
+    if(verifyDialogAddRevenuesCompletedFields(typeRevenue, value, dateEntry, fixedRevenue)) {
         const dateReplace = dateEntry
         .replaceAll('-', '$')
         .replaceAll(' ', '$')
