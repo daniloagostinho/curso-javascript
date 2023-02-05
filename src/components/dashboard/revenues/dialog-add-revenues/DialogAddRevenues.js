@@ -44,7 +44,23 @@ const typeRevenues = [
   },
 ];
 
+months = [
+    'Janeiro',
+    'Fevereiro',
+    'Março',
+    'Abril',
+    'Maio',
+    'Junho',
+    'Julho',
+    'Agosto',
+    'Setembro',
+    'Outubro',
+    'Novembro',
+    'Dezembro',
+  ]
+
 let valueDialogAddRevenues;
+let setStoreRevenues;
 
 const createOptionBySelect = () => {
     const select = document.querySelector('select');
@@ -116,16 +132,94 @@ const handleAddRevenues = (event) => {
     const value = valueDialogAddRevenues;
     const dateEntry = document.querySelector('.dateEntry').value;
     const fixedRevenue = document.querySelector('.fixedRevenue').checked;
+    let user = localStorage.getItem('user');
 
-    const payload = {
-        typeRevenue,
-        value,
-        dateEntry,
-        fixedRevenue
+    if(verifyDialogAddrevenuesCompletedFields(typeRevenue, value, dateEntry, fixedRevenue)) {
+        const dateReplace = dateEntry
+        .replaceAll('-', '$')
+        .replaceAll(' ', '$')
+        .split('$')
+
+        
+        let fixedMonth = Number(dateReplace[1] - 1);
+        let newDate = new Date(dateReplace[0], fixedMonth, dateReplace[2]);
+        
+        const monthDateSelected = newDate.toLocaleDateString('pt-br', {
+            month: 'long'
+        });
+        
+        const convertUppercase = monthDateSelected[0].toUpperCase() + monthDateSelected.substring(1);
+        console.log(convertUppercase)
+
+        let indexMonthCurrent = searchIndexMonth(convertUppercase);
+        let dateEntry = new Date(dateReplace[0], indexMonthCurrent, dateReplace[2]);
+
+        const payload = {
+            user: {
+              title: user,
+              month: {
+                title: this.month,
+                listMonth: {
+                  typeRevenue,
+                  value,
+                  dateEntry
+                }
+              }
+            }
+        }
+
+        if(fixedRevenue) {
+            for(let i = 0; i < months.length; i++) {
+                dateEntry = new Date(dateReplace[0], searchIndexMonth(months[i]), dateReplace[2]);
+
+                const payload = {
+                    user: {
+                      title: user,
+                      month: {
+                        title: months[i],
+                        listMonth: {
+                          typeRevenue,
+                          value,
+                          dateEntry
+                        }
+                      }
+                    }
+                }
+
+                // REQUISIÇÃO!
+
+            }
+
+            setStoreRevenues.store = {
+                status: true
+            }
+
+            return;
+        }
+
+        // REQUISIÇÃO
+        setStoreRevenues.store = {
+            status: true
+        }
+
     }
 
-    console.log(payload);
+}
 
+const searchIndexMonth = (monthSearch) => {
+    let index = months.findIndex((month) => {
+      return month === monthSearch;
+    })
+
+    return index;
+  }
+
+const verifyDialogAddrevenuesCompletedFields = (typeRevenue, value, dateEntry, fixedRevenue) => {
+    if(typeRevenue !== '' && value !== '' && dateEntry !== '' && fixedRevenue !== '') {
+        return true;
+    }
+
+    return false;
 }
 
 if ("customElements" in window) {
