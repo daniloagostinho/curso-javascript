@@ -32,7 +32,9 @@ class FormLogin extends HTMLElement {
        .then(catchApiError)
         .then(response => response.json())
         .then(response => {
-            localStorage.setItem('token', response.token)
+            localStorage.setItem('token', response.token);
+            // GRAVAR AULA PEDINDO PARA ADICIONAR O USER NO LOCALSTORAGE
+            localStorage.setItem('user', JSON.stringify(email))
             onNavigate('/dashboard')
         })
         .catch(handleErrorTypes)

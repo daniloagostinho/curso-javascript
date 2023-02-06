@@ -27,17 +27,6 @@ const openDialogAddRevenues = () => {
     dialog.click();
 }
 
-const verifySetStoreMonthData = () => {
-    setStoreMonth = new Proxy({}, {
-        set: function(target, property, value) {
-
-            console.log(target, property, value)
-            target[property] = value;
-        }
-    });
-}
-
-verifySetStoreMonthData();
 
 if('customElements' in window) {
     customElements.define('app-revenues', Revenues);

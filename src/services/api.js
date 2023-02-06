@@ -21,3 +21,11 @@ window.registerUser = (url, user) => {
         body: formData
     });
 }
+
+window.registerRevenues = (url, revenue) => {
+    return fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(revenue),
+        headers: {'Content-type': 'application/json'}
+    });
+}

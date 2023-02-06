@@ -30,7 +30,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form class="dialog-add-revenues-form">
           <div class="form-group">
             <label for="typeRevenue">Tipo de Receita</label>
             <select
@@ -40,6 +40,7 @@
               autocomplete="off"
             >
             <!--ISERERIR OPTION VIA JS-->
+            <option value="Selecione o tipo de receita" selected>Selecione o tipo de receita</option>
             </select>
           </div>
         
@@ -79,7 +80,7 @@
             </div>
           </div>
         
-          <button class="btn btn-primary" type="submit" onclick="handleAddRevenues(event)">Adicionar Receita</button>
+          <button class="btn btn-primary add-revenues" data-dismiss="modal" type="submit" onclick="handleAddRevenues(event)">Adicionar Receita</button>
         </form>
         
       </div>

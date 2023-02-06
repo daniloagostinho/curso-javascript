@@ -46,7 +46,7 @@ const typeRevenues = [
 
 let months = [
     'Janeiro',
-    'Revereiro',
+    'Fevereiro',
     'Março',
     'Abril',
     'Maio',
@@ -60,7 +60,8 @@ let months = [
 ]
 
 let valueDialogAddRevenues;
-let setStoreRevenues;
+let setStoreRevenues = {};
+let monthDialogAddRevenues;
 
 const createOptionBySelect = () => {
     const select = document.querySelector('select');
@@ -87,6 +88,20 @@ const verifyIsOpenDialogAddRevenues = () => {
         }
     });
 }
+
+const verifySetStoreMonthData = () => {
+    setStoreMonth = new Proxy({}, {
+        set: function(target, property, value) {
+
+            monthDialogAddRevenues = value;
+
+            console.log(target, property, value)
+            target[property] = value;
+        }
+    });
+}
+
+verifySetStoreMonthData();
 
 verifyIsOpenDialogAddRevenues();
 
@@ -126,16 +141,19 @@ const preventFutureDate = () => {
     inputDate.max = maxDate;
 }
 
-const handleAddRevenues = (event) => {
+const handleAddRevenues = async (event) => {
     event.preventDefault();
     const typeRevenue = document.querySelector('.typeRevenue').value;
     const value = valueDialogAddRevenues;
-    const dateEntry = document.querySelector('.dateEntry').value;
     const fixedRevenue = document.querySelector('.fixedRevenue').checked;
+    const dateEntry = document.querySelector('.dateEntry').value;
     let user = localStorage.getItem('user');
-
+    
     if(verifyDialogAddRevenuesCompletedFields(typeRevenue, value, dateEntry, fixedRevenue)) {
-        const dateReplace = dateEntry
+
+        const dateEntryCopy = document.querySelector('.dateEntry').value;
+
+        const dateReplace = dateEntryCopy
         .replaceAll('-', '$')
         .replaceAll(' ', '$')
         .split('$')
@@ -149,7 +167,6 @@ const handleAddRevenues = (event) => {
         });
         
         const convertUppercase = monthDateSelected[0].toUpperCase() + monthDateSelected.substring(1);
-        console.log(convertUppercase)
 
         let indexMonthCurrent = searchIndexMonth(convertUppercase);
         let dateEntry = new Date(dateReplace[0], indexMonthCurrent, dateReplace[2]);
@@ -158,7 +175,7 @@ const handleAddRevenues = (event) => {
             user: {
               title: user,
               month: {
-                title: this.month,
+                title: monthDialogAddRevenues.month,
                 listMonth: {
                   typeRevenue,
                   value,
@@ -186,8 +203,11 @@ const handleAddRevenues = (event) => {
                     }
                 }
 
-                // REQUISIÇÃO!
+                await window.registerRevenues('http://localhost:3000/auth/revenues', payload)
+                document.querySelector('.dialog-add-revenues-form').reset();
 
+                const buttonAddRevenues = document.querySelector('.add-revenues');
+                buttonAddRevenues.setAttribute('data-dismiss', 'modal');
             }
 
             setStoreRevenues.store = {
@@ -197,11 +217,21 @@ const handleAddRevenues = (event) => {
             return;
         }
 
-        // REQUISIÇÃO
-        setStoreRevenues.store = {
-            status: true
-        }
+        const buttonAddRevenues = document.querySelector('.add-revenues');
+        buttonAddRevenues.setAttribute('data-dismiss', 'modal');
 
+        // REQUISIÇÃO
+        await window.registerRevenues('http://localhost:3000/auth/revenues', payload)
+        .then(() => {
+            setStoreRevenues.store = {
+                status: true
+            }
+            document.querySelector('.dialog-add-revenues-form').reset();
+        })
+    } else {
+        const buttonAddRevenues = document.querySelector('.add-revenues')
+        buttonAddRevenues.removeAttribute('data-dismiss');
+        alert('Preencha os campos vazios!')
     }
 
 }
@@ -214,8 +244,8 @@ const searchIndexMonth = (monthSearch) => {
     return index;
   }
 
-const verifyDialogAddrevenuesCompletedFields = (typeRevenue, value, dateEntry, fixedRevenue) => {
-    if(typeRevenue !== '' && value !== '' && dateEntry !== '' && fixedRevenue !== '') {
+const verifyDialogAddRevenuesCompletedFields = (typeRevenue, value, dateEntry, fixedRevenue) => {
+    if(typeRevenue !== '' && value !== '' && value !== undefined && dateEntry !== '' && fixedRevenue !== '') {
         return true;
     }
 
