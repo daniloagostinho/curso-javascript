@@ -82,7 +82,7 @@ const checkAddRevenuesModalOpen = () => {
 
             console.log(target, property, value)
             createOptionBySelect();
-            disable future dates();
+            disableFutureDates();
 
             target[property] = value;
         }

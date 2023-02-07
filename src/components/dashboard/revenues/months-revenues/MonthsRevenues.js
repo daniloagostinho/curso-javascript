@@ -10,6 +10,10 @@ class MonthsRevenues extends HTMLElement {
 
     connectedCallback () {
 		console.log('connected!', this);
+        setTimeout(() => {
+            setImages();
+            getMonthCurrent();
+        }, 100)
 	}
 
     disconnectedCallback () {
@@ -42,7 +46,6 @@ const setImages = () => {
     arrowLeft.src = 'https://raw.githubusercontent.com/daniloagostinho/curso-angular15-na-pratica/main/src/assets/images/arrow-left.png';
     arrowRight.src = 'https://raw.githubusercontent.com/daniloagostinho/curso-angular15-na-pratica/main/src/assets/images/arrow-right.png';   
 }
-
 
 const getMonthCurrent = () => {
     let date = new Date();
@@ -77,10 +80,6 @@ const findIndexElement = () => {
     i = returnIndex;
 }
 
-setTimeout(() => {
-    setImages();
-    getMonthCurrent();
-}, 100)
 
 
 if('customElements' in window) {

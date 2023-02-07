@@ -1,83 +1,77 @@
 class FormLogin extends HTMLElement {
     constructor() {
         super();
-        console.log('contructor ', this)
+
+        console.log('working -> ', this)
 
         fetch('src/components/form-login/FormLogin.html')
-        .then(response=> response.text())
-        .then(text=> this.innerHTML = text);
+        .then(response => response.text())
+        .then(text => this.innerHTML = text)
     }
 
     connectedCallback () {
-		console.log('connected!', this);
-
-	}
+        console.log('iniciou o componente')
+    }
 
     disconnectedCallback () {
-		console.log('disconnected', this);
-	}
+        console.log('destruiu o componente')
+    }
 }
 
- const handleLogin = async () => {
+const handleLogin = () => {
     const email = document.querySelector('.email').value;
     const password = document.querySelector('.password').value;
 
-    const username = {
-        email, 
+    const user = {
+        email,
         password
     }
 
-    if(verifyEmptyFormLoginValue(email, password)) {
-       await window.login('http://localhost:3000/auth/login', username)
-       .then(catchApiError)
-        .then(response => response.json())
-        .then(response => {
-            localStorage.setItem('token', response.token);
-            // GRAVAR AULA PEDINDO PARA ADICIONAR O USER NO LOCALSTORAGE
-            localStorage.setItem('user', JSON.stringify(email))
-            onNavigate('/dashboard')
-        })
-        .catch(handleErrorTypes)
-    } else {
-        
-        openFormLoginDialogRequiredField();
+    if (!verifyFormLoginFieldFill(email, password)) {
+        openFormLoginRequiredFieldModal();
+        return;
     }
 
+    userAuthentication(user);
 }
 
-const verifyEmptyFormLoginValue = (email, password) => {
-    if(email !== '' && password !== '') {
-        return true;
+const userAuthentication = async(user) => {
+    await window.login('http://localhost:3000/auth/login', user)
+    .then(handleAuthenticationError)
+    .then(response => response.json())
+    .then(response => {
+         localStorage.setItem('token', response.token);
+         onNavigate('/dashboard')
+    })
+    .catch(errorTypeVerification)
+}
+
+const handleAuthenticationError = (response) => {
+    if (response.ok) {
+        return response;
     }
 
-    return false;
+    throw new Error(response.statusText);
+};
+
+const errorTypeVerification = (error) => {
+    if(error == 'Error: Not Found') {
+        openFormLoginUserNotFoundModal();
+    }
 }
 
-
-const openFormLoginDialogRequiredField = () => {
-    const dialog = document.querySelector('.modal-required-field')
+const openFormLoginUserNotFoundModal  = () => {
+    const dialog = document.querySelector('.modal-user-not-found');
     dialog.click();
 }
 
-const catchApiError = (response) => {
-    if (!response.ok) {
-        throw Error(response.statusText);
-    }
-    return response;
-}
+const verifyFormLoginFieldFill = (email, password) => email !== '' && password !== '';
 
-const handleErrorTypes = (error) => {
-    if(error == 'Error: Not Found') {
-        openModalUserNotFound();
-        console.log('usuario nao encontrado!!')
-    }
-}
-
-const openModalUserNotFound = () => {
-    const dialog = document.querySelector('.modal-user-not-found')
+const openFormLoginRequiredFieldModal = () => {
+    const dialog = document.querySelector('.modal-required-field');
     dialog.click();
 }
 
 if('customElements' in window) {
-    customElements.define('app-form-login', FormLogin);
+    customElements.define('app-form-login', FormLogin)
 }
