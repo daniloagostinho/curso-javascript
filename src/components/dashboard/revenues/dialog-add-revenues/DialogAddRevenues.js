@@ -82,7 +82,7 @@ const checkAddRevenuesModalOpen = () => {
 
             console.log(target, property, value)
             createOptionBySelect();
-            preventFutureDate();
+            disable future dates();
 
             target[property] = value;
         }
@@ -119,7 +119,7 @@ const formatCurrency = (event) => {
     valueDialogAddRevenues =  parseFloat(replaceComma.replace('.', '')).toFixed();
 }
 
-const preventFutureDate = () => {
+const disableFutureDates = () => {
     const inputDate = this.document.querySelector('#dateEntry')
 
     let date = new Date();
@@ -218,7 +218,11 @@ const registerFixedRecipe = async () => {
         }
       };
   
-      await window.registerRevenues('http://localhost:3000/auth/revenues', payload);
+      try {
+        await window.registerRevenues('http://localhost:3000/auth/revenues', payload);
+      } catch {
+        console.log(error)
+      }
     }
   
     document.querySelector('.dialog-add-revenues-form').reset();
