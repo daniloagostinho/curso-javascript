@@ -26,7 +26,6 @@ const handleFormRegister = () => {
    
     setUserRegistrationData(nameInputValue, emailInputValue, ageInputValue)
     
-    debugger;
 
     if(!verifyFormRegisterFieldFill(nameInputValue, emailInputValue, ageInputValue)) {
         openDialogRequiredField();

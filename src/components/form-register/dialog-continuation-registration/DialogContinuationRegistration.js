@@ -65,7 +65,34 @@ const uploadAvatar = (event) => {
        
     }
 }
+
 const sendDataToBackend = async() => {
+    const extractValues = extractInputValues();
+
+    const payload = {
+        name: extractValues.name,
+        email: extractValues.email,
+        age: extractValues.age, 
+        image: extractValues.image,
+        password: extractValues.password,
+        confirmPassword: extractValues.confirmPassword
+    }
+    
+    if(!emptyFieldsCheck(extractValues.name, extractValues.email, extractValues.age, extractValues.image, extractValues.password, extractValues.confirmPassword)) {
+        const btnCloseModal = document.querySelector('.btn-continuation-register')
+        btnCloseModal.removeAttribute("data-dismiss");
+        alert('Por favor preencha os campos vazios!');
+        return;
+    }
+
+    if(checkPasswordMatch(password, confirmPassword)) {
+        const btnCloseModal = document.querySelector('.btn-continuation-register')
+        btnCloseModal.setAttribute("data-dismiss", "modal");  
+        registerUser(payload)
+    }
+}
+
+const extractInputValues = () => {
     const name = document.querySelector('.nameInput').value;
     const email = document.querySelector('.emailInput').value;
     const age = document.querySelector('.ageInput').value;
@@ -73,52 +100,40 @@ const sendDataToBackend = async() => {
     const password = document.querySelector('.passwordInput').value;
     const confirmPassword = document.querySelector('.confirmPasswordInput').value;
 
-    const payload = {
+    return {
         name,
         email,
-        age, 
+        age,
         image,
         password,
         confirmPassword
     }
-    
-    if(checkEmptyModalFields(name, email, age, image, password, confirmPassword)) {
-        if(checkPasswordsEquals(password, confirmPassword)) {
-            const btnCloseModal = document.querySelector('.btn-continuation-register')
-            btnCloseModal.setAttribute("data-dismiss", "modal");  
-            await window.registerUser('http://localhost:3000/auth/register/user', payload)
-            .then(catchApiDialogError) 
-            .then(response => response.json())
-             .then(response => {
-               alert('Cadastro realizado com sucesso!')
-                onNavigate('/')
-             })
-             .catch(handleDialogErrorTypes)
-        } else {
-            return;
-        }
-    } else {
-        const btnCloseModal = document.querySelector('.btn-continuation-register')
-        btnCloseModal.removeAttribute("data-dismiss");
-        alert('Por favor preencha os campos vazios!')
-    }
 }
 
-const getValuePassword = (event) => {
-    console.log('password -->> ', event.target.value)
+const registerUser = async (payload) => {
+    await window.registerUser('http://localhost:3000/auth/register/user', payload)
+    .then(captureErrorOnUserRegistration) 
+    .then(response => response.json())
+     .then(response => {
+       alert('Cadastro realizado com sucesso!')
+        onNavigate('/')
+     })
+     .catch(checkErrorType)
+}
+
+const getPasswordValue = (event) => {
     password = event.target.value
-    checkPasswordEquals();
-    checkPassworsNotEquals();
+    isPasswordMatch();
+    verifyPasswordMismatch();
 }
 
-const getValueConfirmPassword = (event) => {
+const getPasswordConfirmationValue = (event) => {
     confirmPassword = event.target.value
-    console.log('password -->> ', event.target.value)
-    checkPasswordEquals();
-    checkPassworsNotEquals();
+    isPasswordMatch();
+    verifyPasswordMismatch();
 }
 
-const checkPasswordEquals = () => {
+const isPasswordMatch = () => {
     if(password !== '' && confirmPassword !== '' && password == confirmPassword) {
         hideErrorMessage()
         return true;
@@ -127,21 +142,21 @@ const checkPasswordEquals = () => {
     return false;
 }
 
-const checkPassworsNotEquals = () => {
+const verifyPasswordMismatch = () => {
     if(password !== '' && confirmPassword !== '' && password != confirmPassword) {
         showErrorMessage();
         configCloseModalRemove();
     }
 }
 
-const catchApiDialogError = (response) => {
+const captureErrorOnUserRegistration = (response) => {
     if (!response.ok) {
         throw Error(response.statusText);
     }
     return response;
 }
 
-const handleDialogErrorTypes = (error) => {
+const checkErrorType = (error) => {
     if(error == 'Error: Unprocessable Entity') {
         alert('Já existe uma conta com esse e-mail!')
     }
@@ -162,21 +177,14 @@ const configCloseModalRemove = () => {
     btnCloseModal.removeAttribute('data-dismiss')
 }
 
-const checkEmptyModalFields = (name, email, age, image, password, confirmPassword) => {
-    if(
-        name !== ''
-        && email !== ''
-        && age !== ''
-        && image !== ''
-        && password
-        && confirmPassword) {
-        return true;
-    }
+const emptyFieldsCheck = (name, email, age, image, password, confirmPassword) => name !== '' 
+    && email !== ''
+    && age !== ''
+    && image !== undefined 
+    && password
+    && confirmPassword;
 
-    return false;
-}
-
-const checkPasswordsEquals = (password, confirmPassword) => {
+const checkPasswordMatch = (password, confirmPassword) => {
     if(password !== confirmPassword) {
         const errorMessage = document.querySelector('.errorMessage')
         const btnCloseModal = document.querySelector('.btn-continuation-register')
