@@ -76,7 +76,7 @@ const createOptionBySelect = () => {
     })
 }
 
-const verifyIsOpenDialogAddRevenues = () => {
+const checkAddRevenuesModalOpen = () => {
     isOpenDialogAddRevenues = new Proxy({}, {
         set: function(target, property, value) {
 
@@ -89,8 +89,8 @@ const verifyIsOpenDialogAddRevenues = () => {
     });
 }
 
-const verifySetStoreMonthData = () => {
-    setStoreMonth = new Proxy({}, {
+const checkMonthSetting = () => {
+    monthValueVariable = new Proxy({}, {
         set: function(target, property, value) {
 
             monthDialogAddRevenues = value;
@@ -101,22 +101,22 @@ const verifySetStoreMonthData = () => {
     });
 }
 
-verifySetStoreMonthData();
+checkMonthSetting();
 
-verifyIsOpenDialogAddRevenues();
+checkAddRevenuesModalOpen();
 
-const getValueCurrency = (event) => {
+const formatCurrency = (event) => {
     const filterValue = event.target.value.replace(/\D/g, '');
 
-    const currency =  new Intl.NumberFormat('pt-BR', {
+    const currency = new Intl.NumberFormat('pt-BR', {
         style: 'currency', currency: 'BRL'
     }).format(parseFloat(filterValue / 100))
 
     event.target.value = currency;
 
     const replaceSymbol = currency.replace('R$', '');
-    const replaceComma = replaceSymbol.replace(',', '.')
-    valueDialogAddRevenues = replaceComma.trim();
+    const replaceComma = replaceSymbol.replace(',', '.').trim();
+    valueDialogAddRevenues =  parseFloat(replaceComma.replace('.', '')).toFixed();
 }
 
 const preventFutureDate = () => {
@@ -142,115 +142,129 @@ const preventFutureDate = () => {
 }
 
 const handleAddRevenues = async (event) => {
-    event.preventDefault();
-    const typeRevenue = document.querySelector('.typeRevenue').value;
-    const value = valueDialogAddRevenues;
-    const fixedRevenue = document.querySelector('.fixedRevenue').checked;
-    const dateEntry = document.querySelector('.dateEntry').value;
-    let user = localStorage.getItem('user');
-    
-    if(verifyDialogAddRevenuesCompletedFields(typeRevenue, value, dateEntry, fixedRevenue)) {
+  event.preventDefault();
 
-        const dateEntryCopy = document.querySelector('.dateEntry').value;
+  const { typeRevenue, value, dateEntry, fixedRevenue } = selecteInputsDom();
 
-        const dateReplace = dateEntryCopy
-        .replaceAll('-', '$')
-        .replaceAll(' ', '$')
-        .split('$')
-
-        
-        let fixedMonth = Number(dateReplace[1] - 1);
-        let newDate = new Date(dateReplace[0], fixedMonth, dateReplace[2]);
-        
-        const monthDateSelected = newDate.toLocaleDateString('pt-br', {
-            month: 'long'
-        });
-        
-        const convertUppercase = monthDateSelected[0].toUpperCase() + monthDateSelected.substring(1);
-
-        let indexMonthCurrent = searchIndexMonth(convertUppercase);
-        let dateEntry = new Date(dateReplace[0], indexMonthCurrent, dateReplace[2]);
-
-        const payload = {
-            user: {
-              title: user,
-              month: {
-                title: monthDialogAddRevenues.month,
-                listMonth: {
-                  typeRevenue,
-                  value,
-                  dateEntry
-                }
-              }
-            }
-        }
-
-        if(fixedRevenue) {
-            for(let i = 0; i < months.length; i++) {
-                dateEntry = new Date(dateReplace[0], searchIndexMonth(months[i]), dateReplace[2]);
-
-                const payload = {
-                    user: {
-                      title: user,
-                      month: {
-                        title: months[i],
-                        listMonth: {
-                          typeRevenue,
-                          value,
-                          dateEntry
-                        }
-                      }
-                    }
-                }
-
-                await window.registerRevenues('http://localhost:3000/auth/revenues', payload)
-                document.querySelector('.dialog-add-revenues-form').reset();
-
-                const buttonAddRevenues = document.querySelector('.add-revenues');
-                buttonAddRevenues.setAttribute('data-dismiss', 'modal');
-            }
-
-            setStoreRevenues.store = {
-                status: true
-            }
-
-            return;
-        }
-
-        const buttonAddRevenues = document.querySelector('.add-revenues');
-        buttonAddRevenues.setAttribute('data-dismiss', 'modal');
-
-        // REQUISIÇÃO
-        await window.registerRevenues('http://localhost:3000/auth/revenues', payload)
-        .then(() => {
-            setStoreRevenues.store = {
-                status: true
-            }
-            document.querySelector('.dialog-add-revenues-form').reset();
-        })
-    } else {
-        const buttonAddRevenues = document.querySelector('.add-revenues')
-        buttonAddRevenues.removeAttribute('data-dismiss');
-        alert('Preencha os campos vazios!')
-    }
-
-}
-
-const searchIndexMonth = (monthSearch) => {
-    let index = months.findIndex((month) => {
-      return month === monthSearch;
-    })
-
-    return index;
+  if (!verifyFieldFill(typeRevenue, value, dateEntry, fixedRevenue)) {
+    const buttonAddRevenues = document.querySelector('.add-revenues')
+    buttonAddRevenues.removeAttribute('data-dismiss');
+    alert("Preencha os campos vazios!");
+    return;
   }
 
-const verifyDialogAddRevenuesCompletedFields = (typeRevenue, value, dateEntry, fixedRevenue) => {
-    if(typeRevenue !== '' && value !== '' && value !== undefined && dateEntry !== '' && fixedRevenue !== '') {
-        return true;
-    }
+  fixedRevenue ? registerFixedRecipe() : registerMonthlyRecipe() ;
+};
 
-    return false;
+const generatePortugueseDateFormat = () => {
+    const dateEntryCopy = document.querySelector('.dateEntry').value;
+
+    const dateReplace = dateEntryCopy.replace(/-/g, '$').split('$');
+    
+    let fixedMonth = Number(dateReplace[1] - 1);
+    let newDate = new Date(dateReplace[0], fixedMonth, dateReplace[2]);
+    
+    const monthDateSelected = newDate.toLocaleDateString('pt-br', {
+        month: 'long'
+    });
+    
+    const convertUppercase = monthDateSelected[0].toUpperCase() + monthDateSelected.substring(1);
+
+    let indexMonthCurrent = searchIndexMonth(convertUppercase);
+
+    return new Date(dateReplace[0], indexMonthCurrent, dateReplace[2]);
 }
+
+
+const generateMonthlyRecipePayload = () => {
+  const selectedInputs = selecteInputsDom();
+  const generatePortugueseDate = generatePortugueseDateFormat();
+
+  const payload = {
+    user: {
+      title: selectedInputs.user,
+      month: {
+        title: monthDialogAddRevenues.month,
+        listMonth: {
+          typeRevenue: selectedInputs.typeRevenue,
+          value: selectedInputs.value,
+          dateEntry: generatePortugueseDate
+        }
+      }
+    }
+  };
+
+  return payload;
+};
+
+const registerFixedRecipe = async () => {
+    const dateEntry = document.querySelector('.dateEntry').value;
+    const dateReplace = dateEntry.replace(/-/g, '$').split('$');
+    const selectInputsDom = selecteInputsDom();
+  
+    for (const month of months) {
+      const dateEntry = new Date(dateReplace[0], searchIndexMonth(month), dateReplace[2]);
+      const payload = {
+        user: {
+          title: selectInputsDom.user,
+          month: {
+            title: month,
+            listMonth: {
+              typeRevenue: selectInputsDom.typeRevenue,
+              value: selectInputsDom.value,
+              dateEntry
+            }
+          }
+        }
+      };
+  
+      await window.registerRevenues('http://localhost:3000/auth/revenues', payload);
+    }
+  
+    document.querySelector('.dialog-add-revenues-form').reset();
+    document.querySelector('.add-revenues').setAttribute('data-dismiss', 'modal');
+    setStoreRevenues.store = {
+      status: true
+    };
+};
+
+const selecteInputsDom = () => {
+    const typeRevenue = document.querySelector('.typeRevenue').value;
+    const value = valueDialogAddRevenues;
+    const dateEntry = document.querySelector('.dateEntry').value;
+    const fixedRevenue = document.querySelector('.fixedRevenue').checked;
+    let user = localStorage.getItem('user');
+
+    return {
+        typeRevenue,
+        value,
+        dateEntry,
+        fixedRevenue,
+        user
+    }
+}
+
+const registerMonthlyRecipe = async () => {
+    const buttonAddRevenues = document.querySelector('.add-revenues');
+    buttonAddRevenues.setAttribute('data-dismiss', 'modal');
+  
+    const payload = generateMonthlyRecipePayload();
+  
+    try {
+      await window.registerRevenues('http://localhost:3000/auth/revenues', payload);
+      setStoreRevenues.store = { status: true };
+      document.querySelector('.dialog-add-revenues-form').reset();
+    } catch (error) {
+      console.error(error);
+    }
+};
+
+const searchIndexMonth = (monthSearch) => {
+    return months.findIndex(month => month === monthSearch);
+};
+
+const verifyFieldFill = (typeRevenue, value, dateEntry, fixedRevenue) =>
+  typeRevenue !== '' && value !== '' && value !== undefined && dateEntry !== '' && fixedRevenue !== '';
 
 if ("customElements" in window) {
   customElements.define("app-dialog-add-revenues", DialogAddRevenues);
