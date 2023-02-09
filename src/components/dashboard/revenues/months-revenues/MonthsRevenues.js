@@ -81,7 +81,6 @@ const findIndexElement = () => {
 }
 
 
-
 if('customElements' in window) {
     customElements.define('app-months-revenues', MonthsRevenues);
 }

@@ -63,17 +63,17 @@ let valueDialogAddRevenues;
 let setStoreRevenues = {};
 let monthDialogAddRevenues;
 
-const createOptionBySelect = () => {
-    const select = document.querySelector('select');
-    typeRevenues.forEach(revenue => {
-        const newOption = document.createElement('option');
-        const optionText = document.createTextNode(revenue.name);
-        newOption.appendChild(optionText);
-        newOption.setAttribute('value', revenue.name);
-        if(select.options.length <= 7) {
-            select.appendChild(newOption);
-        }
-    })
+const createOptionsForSelect = () => {
+  const select = document.querySelector('select');
+  const options = typeRevenues
+      .filter((_, index) => index <= 7)
+      .map(revenue => {
+          const option = document.createElement('option');
+          option.textContent = revenue.name;
+          option.value = revenue.name;
+          return option;
+      });
+  select.append(...options);
 }
 
 const checkAddRevenuesModalOpen = () => {
@@ -81,7 +81,7 @@ const checkAddRevenuesModalOpen = () => {
         set: function(target, property, value) {
 
             console.log(target, property, value)
-            createOptionBySelect();
+            createOptionsForSelect();
             disableFutureDates();
 
             target[property] = value;
