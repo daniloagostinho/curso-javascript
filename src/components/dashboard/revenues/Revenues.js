@@ -10,6 +10,9 @@ class Revenues extends HTMLElement {
 
     connectedCallback () {
 		console.log('connected!', this);
+        setTimeout(() => {
+            loadingTable();
+        }, 1000)
 	}
 
     disconnectedCallback () {
@@ -17,7 +20,22 @@ class Revenues extends HTMLElement {
 	}
 }
 
-isOpenDialogAddRevenues = {}
+isOpenDialogAddRevenues = {};
+
+const loadingTable = () => {
+    const table = document.querySelector(".table thead");
+    const titlesTable = ["Tipo de Receita", "Valor", "Data de Entrada", "Id", "Ações"];
+
+    const headerRow = document.createElement("tr");
+
+    titlesTable.forEach(title => {
+        const headerCell = document.createElement("th");
+        headerCell.textContent = title;
+        headerRow.appendChild(headerCell);
+    });
+
+    table.appendChild(headerRow);
+}
 
 const openDialogAddRevenues = () => {
     const dialog = document.querySelector('.dialog-add-revenues');
