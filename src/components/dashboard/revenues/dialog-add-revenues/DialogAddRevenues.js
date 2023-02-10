@@ -61,6 +61,8 @@ let months = [
 
 let valueDialogAddRevenues;
 let setStoreRevenues = {};
+
+
 let monthDialogAddRevenues;
 
 const createOptionsForSelect = () => {
@@ -77,7 +79,7 @@ const createOptionsForSelect = () => {
 }
 
 const checkAddRevenuesModalOpen = () => {
-    isOpenDialogAddRevenues = new Proxy({}, {
+    window.isOpenDialogAddRevenues = new Proxy({}, {
         set: function(target, property, value) {
 
             console.log(target, property, value)
@@ -89,19 +91,6 @@ const checkAddRevenuesModalOpen = () => {
     });
 }
 
-const checkMonthSetting = () => {
-    monthValueVariable = new Proxy({}, {
-        set: function(target, property, value) {
-
-            monthDialogAddRevenues = value;
-
-            console.log(target, property, value)
-            target[property] = value;
-        }
-    });
-}
-
-checkMonthSetting();
 
 checkAddRevenuesModalOpen();
 
@@ -197,6 +186,20 @@ const generateMonthlyRecipePayload = () => {
   return payload;
 };
 
+const checkMonthSetting = () => {
+  window.monthValueVariable = new Proxy({}, {
+      set: function(target, property, value) {
+
+          monthDialogAddRevenues = value;
+
+          console.log(target, property, value)
+          target[property] = value;
+      }
+  });
+}
+
+checkMonthSetting();
+
 const registerFixedRecipe = async () => {
     const dateEntry = document.querySelector('.dateEntry').value;
     const dateReplace = dateEntry.replace(/-/g, '$').split('$');
@@ -219,7 +222,12 @@ const registerFixedRecipe = async () => {
       };
   
       try {
-        await window.registerRevenues('http://localhost:3000/auth/revenues', payload);
+        await window.registerRevenues('http://localhost:3000/auth/revenues', payload)
+          .then(() => {
+            window.addRevenues.add = {
+              request: true
+            }
+          })
       } catch {
         console.log(error)
       }
@@ -237,7 +245,7 @@ const selecteInputsDom = () => {
     const value = valueDialogAddRevenues;
     const dateEntry = document.querySelector('.dateEntry').value;
     const fixedRevenue = document.querySelector('.fixedRevenue').checked;
-    let user = localStorage.getItem('user');
+    const user = localStorage.getItem('user');
 
     return {
         typeRevenue,
@@ -255,7 +263,12 @@ const registerMonthlyRecipe = async () => {
     const payload = generateMonthlyRecipePayload();
   
     try {
-      await window.registerRevenues('http://localhost:3000/auth/revenues', payload);
+      await window.registerRevenues('http://localhost:3000/auth/revenues', payload)
+        .then(() => {
+          window.addRevenues.add = {
+            request: true
+          }
+        })
       setStoreRevenues.store = { status: true };
       document.querySelector('.dialog-add-revenues-form').reset();
     } catch (error) {

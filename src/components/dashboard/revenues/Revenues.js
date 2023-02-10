@@ -21,22 +21,36 @@ class Revenues extends HTMLElement {
 	}
 }
 
-isOpenDialogAddRevenues = {};
+
 let monthSelected;
 
 const defineInitMonth = () => {
     let date = new Date();
     let dateString = date.toLocaleDateString('pt-br', {month: 'long'})
     let letterDateString = dateString[0].toUpperCase() + dateString.substring(1)
-    monthSelected ==  undefined ? (this.monthSelected = letterDateString) : this.monthSelected
+    monthSelected == undefined ? (monthSelected = letterDateString) : monthSelected
   }
 
 const getRegisterRevenues = async () => {
-    const user = localStorage.getItem('userinfo');
+    const user = localStorage.getItem('user');
     window.getRegisterRevenues('http://localhost:3000/list/revenues', monthSelected, user)
         .then(response => response.json())
         .then(response => console.log(response))
 }
+
+const checkAddRevenues = () => {
+    addRevenues = new Proxy({}, {
+        set: function(target, property, value) {
+
+            getRegisterRevenues();
+
+            console.log(target, property, value)
+            target[property] = value;
+        }
+    });
+}
+
+checkAddRevenues();
 
 const loadingTable = () => {
     const table = document.querySelector(".table thead");
@@ -57,7 +71,7 @@ const loadingTable = () => {
 
 const openDialogAddRevenues = () => {
     const dialog = document.querySelector('.dialog-add-revenues');
-    isOpenDialogAddRevenues.open = {
+    window.isOpenDialogAddRevenues.open = {
         isOpen: true
     }
     dialog.click();

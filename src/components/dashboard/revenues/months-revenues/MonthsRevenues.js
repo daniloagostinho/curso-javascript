@@ -38,7 +38,7 @@ let monthsRevenues = [
 
 let i;
 let currentMonth;
-monthValueVariable = {};
+
 
 const setImages = () => {
     const arrowLeft = document.querySelector('img.arrow-left-img');
@@ -53,7 +53,7 @@ const getMonthCurrent = () => {
     let letterDateString = dateString[0].toUpperCase() + dateString.substring(1);
     document.querySelector('.text-month').innerHTML = letterDateString;
     currentMonth = letterDateString;
-    monthValueVariable.add = {
+    window.monthValueVariable.add = {
         month: letterDateString
     }
 }

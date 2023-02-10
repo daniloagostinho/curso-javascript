@@ -17,7 +17,7 @@ class FormRegister extends HTMLElement {
 	}
 }
 
-userRegistrationData = {}
+
 
 const handleFormRegister = () => {
     const nameInputValue = document.querySelector('.nameInputValue').value;
@@ -43,7 +43,7 @@ const openDialogRequiredField = () => {
 }
 
 const setUserRegistrationData = (name, email, age) => {
-    userRegistrationData.data = {
+    window.userRegistrationData.data = {
         name, 
         email,
         age

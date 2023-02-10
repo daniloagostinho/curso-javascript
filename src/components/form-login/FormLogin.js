@@ -23,7 +23,7 @@ const handleLogin = () => {
 
     const {email} = callCreatePayloadLogin;
     const {password} = callCreatePayloadLogin;
-    
+
     if (!verifyFormLoginFieldFill(email, password)) {
         openFormLoginRequiredFieldModal();
         return;
@@ -44,7 +44,6 @@ const createPayloadLogin = () =>  {
     return payload;
 }
 const userAuthentication = async() => {
-    debugger;
     let callCreatePayloadLogin = createPayloadLogin();
     const {email} = callCreatePayloadLogin;
 
@@ -53,8 +52,8 @@ const userAuthentication = async() => {
     .then(response => response.json())
     .then(response => {
         console.log(response)
-         localStorage.setItem('token', JSON.stringify(response.token));
-         localStorage.setItem('user', JSON.stringify(email));
+         localStorage.setItem('token', response.token);
+         localStorage.setItem('user', email);
          onNavigate('/dashboard')
     })
     .catch(errorTypeVerification)
