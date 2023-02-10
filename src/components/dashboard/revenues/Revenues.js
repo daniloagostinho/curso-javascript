@@ -12,7 +12,7 @@ class Revenues extends HTMLElement {
 		console.log('connected!', this);
         setTimeout(() => {
             defineInitMonth();
-            loadingTable();
+            getRegisterRevenues();
         }, 1000)
 	}
 
@@ -35,9 +35,50 @@ const getRegisterRevenues = async () => {
     const user = localStorage.getItem('user');
     window.getRegisterRevenues('http://localhost:3000/list/revenues', monthSelected, user)
         .then(response => response.json())
-        .then(response => console.log(response))
+        .then(response => {
+            let arr = [];
+            if(response.result.length === 0) {
+            } else {
+                response.result.forEach(revenue => {
+                    arr.push(revenue.user.month.listMonth)
+                })
+            }
+            populateTable(arr);
+        })
 }
 
+
+const populateTable = (arr) => {
+    const thead = document.querySelector(".table thead");
+    const titlesTable = ["Tipo de Receita", "Valor", "Data de Entrada", "Id", "Ações"];
+
+    const headerRow = document.createElement("tr");
+
+    titlesTable.forEach(title => {
+        const headerCell = document.createElement("th");
+        headerCell.textContent = title;
+        headerRow.appendChild(headerCell);
+    });
+
+    thead.appendChild(headerRow);
+
+    const tbody = document.querySelector('table tbody');
+
+    arr.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${item.typeRevenue}</td>
+            <td>${item.value}</td>
+            <td>${item.dateEntry}</td>
+            <td>${item._id}</td>
+            <td>
+                <img class="image" src="${item.actions[0]}" />
+                <img class="image" src="${item.actions[1]}" />
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
 const checkAddRevenues = () => {
     addRevenues = new Proxy({}, {
         set: function(target, property, value) {
@@ -51,23 +92,6 @@ const checkAddRevenues = () => {
 }
 
 checkAddRevenues();
-
-const loadingTable = () => {
-    const table = document.querySelector(".table thead");
-    const titlesTable = ["Tipo de Receita", "Valor", "Data de Entrada", "Id", "Ações"];
-
-    const headerRow = document.createElement("tr");
-
-    titlesTable.forEach(title => {
-        const headerCell = document.createElement("th");
-        headerCell.textContent = title;
-        headerRow.appendChild(headerCell);
-    });
-
-    table.appendChild(headerRow);
-
-    getRegisterRevenues();
-}
 
 const openDialogAddRevenues = () => {
     const dialog = document.querySelector('.dialog-add-revenues');
