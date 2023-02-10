@@ -11,6 +11,7 @@ class Revenues extends HTMLElement {
     connectedCallback () {
 		console.log('connected!', this);
         setTimeout(() => {
+            defineInitMonth();
             loadingTable();
         }, 1000)
 	}
@@ -21,6 +22,21 @@ class Revenues extends HTMLElement {
 }
 
 isOpenDialogAddRevenues = {};
+let monthSelected;
+
+const defineInitMonth = () => {
+    let date = new Date();
+    let dateString = date.toLocaleDateString('pt-br', {month: 'long'})
+    let letterDateString = dateString[0].toUpperCase() + dateString.substring(1)
+    monthSelected ==  undefined ? (this.monthSelected = letterDateString) : this.monthSelected
+  }
+
+const getRegisterRevenues = async () => {
+    const user = localStorage.getItem('userinfo');
+    window.getRegisterRevenues('http://localhost:3000/list/revenues', monthSelected, user)
+        .then(response => response.json())
+        .then(response => console.log(response))
+}
 
 const loadingTable = () => {
     const table = document.querySelector(".table thead");
@@ -35,6 +51,8 @@ const loadingTable = () => {
     });
 
     table.appendChild(headerRow);
+
+    getRegisterRevenues();
 }
 
 const openDialogAddRevenues = () => {

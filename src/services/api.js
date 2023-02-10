@@ -29,3 +29,12 @@ window.registerRevenues = (url, revenue) => {
         headers: {'Content-type': 'application/json'}
     });
 }
+
+window.getRegisterRevenues = (url, param, user) => {
+    return fetch(url, {
+        headers: {
+            'month': param,
+            'user': user
+        }
+    });
+}

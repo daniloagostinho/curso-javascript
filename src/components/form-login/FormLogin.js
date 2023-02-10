@@ -19,28 +19,42 @@ class FormLogin extends HTMLElement {
 }
 
 const handleLogin = () => {
-    const email = document.querySelector('.email').value;
-    const password = document.querySelector('.password').value;
+    let callCreatePayloadLogin  = createPayloadLogin();
 
-    const user = {
-        email,
-        password
-    }
-
+    const {email} = callCreatePayloadLogin;
+    const {password} = callCreatePayloadLogin;
+    
     if (!verifyFormLoginFieldFill(email, password)) {
         openFormLoginRequiredFieldModal();
         return;
     }
 
-    userAuthentication(user);
+    userAuthentication();
 }
 
-const userAuthentication = async(user) => {
-    await window.login('http://localhost:3000/auth/login', user)
+const createPayloadLogin = () =>  {
+    const email = document.querySelector('.email').value;
+    const password = document.querySelector('.password').value;
+
+    const payload = {
+        email,
+        password
+    }
+
+    return payload;
+}
+const userAuthentication = async() => {
+    debugger;
+    let callCreatePayloadLogin = createPayloadLogin();
+    const {email} = callCreatePayloadLogin;
+
+    await window.login('http://localhost:3000/auth/login', callCreatePayloadLogin)
     .then(handleAuthenticationError)
     .then(response => response.json())
     .then(response => {
-         localStorage.setItem('token', response.token);
+        console.log(response)
+         localStorage.setItem('token', JSON.stringify(response.token));
+         localStorage.setItem('user', JSON.stringify(email));
          onNavigate('/dashboard')
     })
     .catch(errorTypeVerification)
