@@ -49,7 +49,7 @@ const getRegisterRevenues = async () => {
 }
 
 
-const populateTable = (arr) => {
+const createTableHeader = () => {
     const thead = document.querySelector(".table thead");
     thead.innerHTML = "";
     const titlesTable = ["Tipo de Receita", "Valor", "Data de Entrada", "Id", "Ações"];
@@ -63,7 +63,13 @@ const populateTable = (arr) => {
     });
 
     thead.appendChild(headerRow);
+};
 
+const populateTable = (arr) => {
+    debugger;
+    if (!document.querySelector('.table thead tr')) {
+        createTableHeader();
+    }
     const tbody = document.querySelector('table tbody');
     tbody.innerHTML = "";
     
