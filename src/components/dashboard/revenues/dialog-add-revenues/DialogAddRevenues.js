@@ -10,7 +10,11 @@ class DialogAddRevenues extends HTMLElement {
       .then((text) => (this.innerHTML = text));
   }
 
-  connectedCallback() {}
+  connectedCallback() {
+    setTimeout(() => {
+      createOptionsForSelect();
+    }, 1000)
+  }
 
   disconnectedCallback() {
     console.log("disconnected", this);
@@ -83,7 +87,6 @@ const checkAddRevenuesModalOpen = () => {
         set: function(target, property, value) {
 
             console.log(target, property, value)
-            createOptionsForSelect();
             disableFutureDates();
 
             target[property] = value;
