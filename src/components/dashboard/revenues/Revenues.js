@@ -43,6 +43,7 @@ const getRegisterRevenues = async () => {
                     arr.push(revenue.user.month.listMonth)
                 })
             }
+            console.log('arr -->> ', arr)
             populateTable(arr);
         })
 }
@@ -50,6 +51,7 @@ const getRegisterRevenues = async () => {
 
 const populateTable = (arr) => {
     const thead = document.querySelector(".table thead");
+    thead.innerHTML = "";
     const titlesTable = ["Tipo de Receita", "Valor", "Data de Entrada", "Id", "Ações"];
 
     const headerRow = document.createElement("tr");
@@ -63,7 +65,8 @@ const populateTable = (arr) => {
     thead.appendChild(headerRow);
 
     const tbody = document.querySelector('table tbody');
-
+    tbody.innerHTML = "";
+    
     arr.forEach(item => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
@@ -79,6 +82,7 @@ const populateTable = (arr) => {
         tbody.appendChild(tr);
     });
 }
+
 const checkAddRevenues = () => {
     addRevenues = new Proxy({}, {
         set: function(target, property, value) {

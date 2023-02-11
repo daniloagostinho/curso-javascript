@@ -12,6 +12,7 @@ const onNavigate = (pathname) => {
     canGuard(pathname) ? rootDiv.innerHTML = routes[pathname] : '<app-login></app-login>'
 }
 
+
 const canGuard = (route) => {
     if(route === '/dashboard') {
         if(localStorage.getItem('token') !== null) {
