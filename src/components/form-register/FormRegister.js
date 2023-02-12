@@ -17,8 +17,6 @@ class FormRegister extends HTMLElement {
 	}
 }
 
-
-
 const handleFormRegister = () => {
     const nameInputValue = document.querySelector('.nameInputValue').value;
     const emailInputValue = document.querySelector('.emailInputValue').value;

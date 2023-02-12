@@ -1,7 +1,7 @@
 <div class="container">
     <div class="card">
       <app-months-revenues></app-months-revenues>
-      <div class="block-revenues-search">
+      <div class="block-revenues-search" style="display: none;">
         <br>
         <label class="mat-label"><strong>Encontrar Receita:</strong></label>
         <input
@@ -22,13 +22,18 @@
       <div class="display"></div>
      
       <table class="table">
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border" style="width: 7rem; height: 7rem;" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
         <thead>
         </thead>
         <tbody>
         </tbody>
       </table>
   
-      <nav aria-label="Page navigation example" class="my-pagination">
+      <nav aria-label="Page navigation example" class="my-pagination" style="display: none;">
         <ul class="pagination">
           <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
           <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -38,7 +43,7 @@
         </ul>
       </nav>
   
-      <div class="block-register-recipes">
+      <div class="block-register-recipes" style="display: none;">
         <div class="container">
           <div class="center">
             <span>Você ainda não cadastrou receitas para esse mês.</span>
