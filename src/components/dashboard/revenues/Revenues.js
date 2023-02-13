@@ -96,7 +96,7 @@ const populateTable = (arr) => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${item.typeRevenue}</td>
-            <td>${item.value}</td>
+            <td>${currencyValue(item.value)}</td>
             <td>${item.dateEntry}</td>
             <td>${item._id}</td>
             <td>
@@ -107,6 +107,12 @@ const populateTable = (arr) => {
         tbody.appendChild(tr);
     });
 
+}
+
+const currencyValue = (value) => {
+    return new Intl.NumberFormat('pt-BR', {
+        style: 'currency', currency: 'BRL'
+    }).format(parseFloat(value / 100));
 }
 
 const captureClickedAction = (action, element) => {
@@ -156,7 +162,6 @@ const searchRevenues = (event) => {
     });
   
     if (filteredArray.length > 0) {
-      // Exibe os resultados
       noResult.style.display = "none";
       
       const itemsPerPage = 3;
