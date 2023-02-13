@@ -34,15 +34,16 @@
   cursor: pointer;
 }
 
-.disabled,
-.disabled:hover {
-  color: #fff;
-  background-color: #6c757d;
-  border-color: #6c757d;
-  opacity: 0.6;
+button:disabled,
+button:disabled:hover {
+  background-color: transparent;
 }
 
 ul.pagination {
   position: relative;
   top: 50px;
+}
+
+button.page-link {
+  margin-left: 10px;;
 }
