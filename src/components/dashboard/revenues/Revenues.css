@@ -1,7 +1,8 @@
 .card {
   width: 100%;
-  padding: 0.8%;
+  padding: 4%;
 }
+
 .btn-default {
   width: 200px;
   display: block;
@@ -24,9 +25,9 @@
 }
 
 .actions li {
-    list-style: none;
-    position: relative;
-    left: -44px;
+  list-style: none;
+  position: relative;
+  left: -44px;
 }
 .image {
   float: left;
@@ -41,9 +42,15 @@ button:disabled:hover {
 
 ul.pagination {
   position: relative;
-  top: 50px;
+  top: 30px;
 }
 
 button.page-link {
   margin-left: 10px;
+}
+
+
+.btn:disabled:hover {
+  color: #343a40 !important;
+  text-decoration: none;
 }
