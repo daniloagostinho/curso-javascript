@@ -26,6 +26,7 @@ let monthSelected;
 let emptyResponse;
 const itemsPerPage = 3;
 let currentPage = 1;
+let arrRevenues;
 
 const defineInitMonth = () => {
     let date = new Date();
@@ -59,6 +60,7 @@ const defineInitMonth = () => {
                 blockRevenuesSearch.style.display = 'block';
                 myPagination.style.display = 'block';
                 blockRegisterRecipes.style.display = 'none';
+                arrRevenues = arr;
             }
             spinner.style.display = 'none';
             buildTable(arr);
@@ -145,22 +147,31 @@ const openDialogAddRevenues = () => {
 }
 
 const searchRevenues = (event) => {
-  const table = document.querySelector('.table');
-  const noResult = document.querySelector('.no-result');
-  const searchTerm = event.target.value.toLowerCase();
-  const rows = table.querySelectorAll("tbody tr");
-  rows.forEach(function(row) {
-    const cell = row.querySelector("td:first-child");
-    const text = cell.textContent.toLowerCase();
-    if (text.indexOf(searchTerm) !== -1) {
-      row.style.display = "table-row";
-      noResult.style.display = "none"
+    const noResult = document.querySelector('.no-result');
+    const searchTerm = event.target.value.toLowerCase();
+    
+    const filteredArray = arrRevenues.filter(item => {
+      const text = item.typeRevenue.toLowerCase();
+      return text.includes(searchTerm);
+    });
+  
+    if (filteredArray.length > 0) {
+      // Exibe os resultados
+      noResult.style.display = "none";
+      
+      const itemsPerPage = 3;
+      const currentPage = 1;
+      const paginatedArray = paginate(filteredArray, itemsPerPage, currentPage);
+      populateTable(paginatedArray);
+  
     } else {
-      row.style.display = "none";
-      noResult.style.display = "block"
+      // Não há resultados
+      noResult.style.display = "block";
+      const tableBody = document.querySelector('.table tbody');
+      tableBody.innerHTML = ''
     }
-  });
 }
+
 const buildTable = (arr) => {
     const pagination = document.querySelector('.my-pagination');
   
