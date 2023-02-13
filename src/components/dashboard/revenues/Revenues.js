@@ -144,6 +144,23 @@ const openDialogAddRevenues = () => {
     dialog.click();
 }
 
+const searchRevenues = (event) => {
+  const table = document.querySelector('.table');
+  const noResult = document.querySelector('.no-result');
+  const searchTerm = event.target.value.toLowerCase();
+  const rows = table.querySelectorAll("tbody tr");
+  rows.forEach(function(row) {
+    const cell = row.querySelector("td:first-child");
+    const text = cell.textContent.toLowerCase();
+    if (text.indexOf(searchTerm) !== -1) {
+      row.style.display = "table-row";
+      noResult.style.display = "none"
+    } else {
+      row.style.display = "none";
+      noResult.style.display = "block"
+    }
+  });
+}
 const buildTable = (arr) => {
     const pagination = document.querySelector('.my-pagination');
   

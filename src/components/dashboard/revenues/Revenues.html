@@ -7,6 +7,7 @@
         <input
           matInput
           placeholder="Pesquisar Receita"
+          oninput="searchRevenues(event)"
         />
       </div>
       <br>
@@ -30,6 +31,14 @@
         <tbody>
         </tbody>
       </table>
+
+      <div class="no-result" style="display: none;">
+        <div class="container">
+          <div class="center">
+            <span>Não foram encontrados itens na tabela..</span>
+          </div>
+        </div>
+      </div>
       
       <nav aria-label="Page navigation example" class="my-pagination" style="display: none;"></nav>
   
