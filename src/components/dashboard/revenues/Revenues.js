@@ -175,10 +175,24 @@ const pagination = (arr) => {
             }
     
             populateTable(nextPageData);
+
+            const prevLink = pagination.querySelector('.page-link.prev');
+            const nextLink = pagination.querySelector('.page-link.next');
+
+            if (currentPage === 1) {
+                prevLink.disabled = true;
+            } else {
+                prevLink.disabled = false;
+            }
+            if (currentPage === Math.ceil(arr.length / itemsPerPage)) {
+                nextLink.disabled = true;
+            } else {
+                nextLink.disabled = false;
+            }
+            
         });
     }
 };
- 
 
 const createPagination = () => {
     let paginationHTML = `<ul class="pagination">
