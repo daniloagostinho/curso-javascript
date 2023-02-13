@@ -24,6 +24,8 @@ class Revenues extends HTMLElement {
 
 let monthSelected;
 let emptyResponse;
+const itemsPerPage = 3;
+let currentPage = 1;
 
 const defineInitMonth = () => {
     let date = new Date();
@@ -36,7 +38,7 @@ const defineInitMonth = () => {
   const getRegisterRevenues = async () => {
     const spinner = document.querySelector('.spinner-border');
     const blockRevenuesSearch = document.querySelector('.block-revenues-search');
-    const myPagination = document.querySelector('.my-pagination');
+    const myPagination = document.querySelector('nav.my-pagination');
     const blockRegisterRecipes = document.querySelector('.block-register-recipes');
 
     spinner.style.display = 'block';
@@ -59,7 +61,8 @@ const defineInitMonth = () => {
                 blockRegisterRecipes.style.display = 'none';
             }
             spinner.style.display = 'none';
-            populateTable(arr);
+            pagination(arr);
+
         })
 }
 
@@ -101,6 +104,7 @@ const populateTable = (arr) => {
         `;
         tbody.appendChild(tr);
     });
+
 }
 
 const captureClickedAction = (action, element) => {
@@ -127,6 +131,11 @@ const checkAddRevenues = () => {
 
 checkAddRevenues();
 
+const paginate = (array, itemsPerPage, currentPage) => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return array.slice(startIndex, startIndex + itemsPerPage);
+}
+
 const openDialogAddRevenues = () => {
     const dialog = document.querySelector('.dialog-add-revenues');
     window.isOpenDialogAddRevenues.open = {
@@ -135,31 +144,50 @@ const openDialogAddRevenues = () => {
     dialog.click();
 }
 // TODO
-const pagination = () => {
-    const pagination = document.querySelector('.my-pagination .pagination');
+const pagination = (arr) => {
+    const pagination = document.querySelector('.my-pagination');
+  
+    const paginationHTML = createPagination();
+    pagination.innerHTML = paginationHTML;
+  
     const pageLinks = pagination.querySelectorAll('.page-item');
+    const prev = document.querySelector('.prev');
+    const next = document.querySelector('.next');
 
-    pagination.style.display = 'block';
-
+    populateTable(paginate(arr, itemsPerPage, currentPage));
+  
     for (const pageLink of pageLinks) {
         pageLink.addEventListener('click', (event) => {
             event.preventDefault();
             const clickedLink = event.target.closest('.page-link');
-            const pageNumber = parseInt(clickedLink.textContent);
-
-            if (isNaN(pageNumber)) {
             if (clickedLink.textContent === 'Anterior') {
-                // handle previous link logic here
+                currentPage--;
+                next.disabled = false;
             } else if (clickedLink.textContent === 'Próximo') {
-                // handle next link logic here
+                currentPage++;
+                prev.disabled = false;
             }
-            } else {
-            // handle page number link logic here
+    
+            const nextPageData = paginate(arr, itemsPerPage, currentPage);
+            if (nextPageData.length === 0) {
+                clickedLink.disabled = true;
+                return;
             }
+    
+            populateTable(nextPageData);
         });
     }
-}
+};
+ 
 
+const createPagination = () => {
+    let paginationHTML = `<ul class="pagination">
+                            <li class="page-item"><button type="button" class="btn btn-outline-dark page-link prev" disabled>Anterior</button></li>
+                            <li class="page-item"><button type="button" class="btn btn-outline-dark page-link next">Próximo</button></li>
+                          </ul>
+                          `
+    return paginationHTML;
+}
 
 if('customElements' in window) {
     customElements.define('app-revenues', Revenues);
