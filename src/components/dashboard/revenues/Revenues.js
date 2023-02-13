@@ -61,7 +61,7 @@ const defineInitMonth = () => {
                 blockRegisterRecipes.style.display = 'none';
             }
             spinner.style.display = 'none';
-            pagination(arr);
+            buildTable(arr);
 
         })
 }
@@ -143,8 +143,8 @@ const openDialogAddRevenues = () => {
     }
     dialog.click();
 }
-// TODO
-const pagination = (arr) => {
+
+const buildTable = (arr) => {
     const pagination = document.querySelector('.my-pagination');
   
     const paginationHTML = createPagination();
