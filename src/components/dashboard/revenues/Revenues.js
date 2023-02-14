@@ -13,9 +13,10 @@ class Revenues extends HTMLElement {
         setTimeout(() => {
             defineInitMonth();
             getRegisterRevenues();
+            initTableConfig();  
         }, 1000)
 	}
-
+''
     disconnectedCallback () {
 		console.log('disconnected', this);
 	}
@@ -27,6 +28,8 @@ let emptyResponse;
 const itemsPerPage = 3;
 let currentPage = 1;
 let arrRevenues;
+
+let tbody;
 
 const defineInitMonth = () => {
     let date = new Date();
@@ -69,8 +72,13 @@ const defineInitMonth = () => {
 }
 
 
-const createTableHeader = () => {
-    const thead = document.querySelector(".table thead");
+const initTableConfig = () => {
+    let table = document.createElement('table');
+    table.classList.add("table")
+    
+    const thead = document.createElement("thead");
+    table.appendChild(thead);
+
     thead.innerHTML = "";
     const titlesTable = ["Tipo de Receita", "Valor", "Data de Entrada", "Id", "Ações"];
 
@@ -83,13 +91,12 @@ const createTableHeader = () => {
     });
 
     thead.appendChild(headerRow);
+    document.querySelector('.table-container').appendChild(table);
+    tbody = document.createElement('tbody');
+    table.appendChild(tbody)
 };
 
-const populateTable = (arr) => {
-    if (!document.querySelector('.table thead tr') && !emptyResponse) {
-        createTableHeader();
-    }
-    const tbody = document.querySelector('table tbody');
+const updateTableRows  = (arr) => {
     tbody.innerHTML = "";
     
     arr.forEach(item => {
@@ -106,7 +113,6 @@ const populateTable = (arr) => {
         `;
         tbody.appendChild(tr);
     });
-
 }
 
 const currencyValue = (value) => {
@@ -167,7 +173,7 @@ const searchRevenues = (event) => {
       const itemsPerPage = 3;
       const currentPage = 1;
       const paginatedArray = paginate(filteredArray, itemsPerPage, currentPage);
-      populateTable(paginatedArray);
+      updateTableRows(paginatedArray);
   
     } else {
       // Não há resultados
@@ -187,7 +193,7 @@ const buildTable = (arr) => {
     const prev = document.querySelector('.prev');
     const next = document.querySelector('.next');
 
-    populateTable(paginate(arr, itemsPerPage, currentPage));
+    updateTableRows(paginate(arr, itemsPerPage, currentPage));
   
     for (const pageLink of pageLinks) {
         pageLink.addEventListener('click', (event) => {
@@ -207,7 +213,7 @@ const buildTable = (arr) => {
                 return;
             }
     
-            populateTable(nextPageData);
+            updateTableRows(nextPageData);
 
             const prevLink = pagination.querySelector('.page-link.prev');
             const nextLink = pagination.querySelector('.page-link.next');

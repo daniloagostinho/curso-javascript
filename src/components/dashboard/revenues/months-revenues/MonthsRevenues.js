@@ -31,8 +31,8 @@ let monthsRevenues = [
     'Julho',
     'Agosto',
     'Setembro',
-    'Outubro',
     'Novembro',
+    'Outubro',
     'Dezembro'
 ]
 
@@ -60,6 +60,9 @@ const getMonthCurrent = () => {
 
 const prev = () => {
     findIndexElement();
+    if (i === 0) {
+      return;
+    }
     i = i - 1;
     i = i % monthsRevenues.length;
     currentMonth = monthsRevenues[i];
@@ -67,6 +70,9 @@ const prev = () => {
 }
 
 const next = () => {
+    if (i === 11) {
+        return;
+    }
     findIndexElement();
     i = i + 1;
     i = i % monthsRevenues.length;

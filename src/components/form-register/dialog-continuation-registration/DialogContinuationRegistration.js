@@ -115,7 +115,7 @@ const registerUser = async (payload) => {
     .then(captureErrorOnUserRegistration) 
     .then(response => response.json())
      .then(response => {
-        localStorage.setItem('userInfo', JSON.stringify(response.user))
+       localStorage.setItem('userInfo', JSON.stringify(response.user))
        alert('Cadastro realizado com sucesso!')
         onNavigate('/')
      })
