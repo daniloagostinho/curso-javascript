@@ -38,3 +38,11 @@ window.getRegisterRevenues = (url, param, user) => {
         }
     });
 }
+
+window.downloadImage = (url, param) => {
+    return fetch(url, {
+        headers: {
+            'imgName': param
+        }
+    })
+}

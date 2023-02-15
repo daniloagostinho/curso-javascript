@@ -54,3 +54,7 @@ button.page-link {
   color: #343a40 !important;
   text-decoration: none;
 }
+
+.animationCard {
+  transition: width 2s;
+}

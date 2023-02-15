@@ -13,7 +13,8 @@ class Revenues extends HTMLElement {
         setTimeout(() => {
             defineInitMonth();
             getRegisterRevenues();
-            initTableConfig();  
+            initTableConfig(); 
+            animationInput(); 
         }, 1000)
 	}
 ''
@@ -66,7 +67,7 @@ const defineInitMonth = () => {
                 arrRevenues = arr;
             }
             spinner.style.display = 'none';
-            buildTable(arr);
+            buildPagination(arr);
 
         })
 }
@@ -183,7 +184,8 @@ const searchRevenues = (event) => {
     }
 }
 
-const buildTable = (arr) => {
+const buildPagination = (arr) => {
+
     const pagination = document.querySelector('.my-pagination');
   
     const paginationHTML = createPagination();
@@ -240,6 +242,21 @@ const createPagination = () => {
                           </ul>
                           `
     return paginationHTML;
+}
+
+const animationInput = () => {
+    const inputSearch = document.querySelector('.block-revenues-search input');
+    inputSearch.style.width = '163px';
+    inputSearch.addEventListener('focus', (event) => {
+        inputSearch.style.width = '42%';
+        inputSearch.classList.add('animationCard');
+    })
+
+    inputSearch.addEventListener('blur', (event) => {
+        inputSearch.style.width = '163px';
+        inputSearch.classList.add('animationCard');
+    })
+    console.log(inputSearch)
 }
 
 if('customElements' in window) {
