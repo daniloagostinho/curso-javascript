@@ -29,9 +29,25 @@ li {
   list-style: none;
 }
 
+a {
+  color: white;
+
+}
+
 a:hover {
   color: white;
   cursor: pointer;
+  text-decoration: none;
+}
+
+.message {
+  position: relative;
+  bottom: 5px;
+}
+
+.img-logout {
+  position: relative;
+  bottom: 3px;
 }
 
 .profile-img {

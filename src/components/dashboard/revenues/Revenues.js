@@ -13,7 +13,6 @@ class Revenues extends HTMLElement {
         setTimeout(() => {
             defineInitMonth();
             getRegisterRevenues();
-            initTableConfig(); 
             animationInput(); 
         }, 1000)
 	}
@@ -29,6 +28,7 @@ let emptyResponse;
 const itemsPerPage = 3;
 let currentPage = 1;
 let arrRevenues;
+let showTable = false;
 
 let tbody;
 
@@ -65,20 +65,26 @@ const defineInitMonth = () => {
                 myPagination.style.display = 'block';
                 blockRegisterRecipes.style.display = 'none';
                 arrRevenues = arr;
+                showTable = true;
             }
             spinner.style.display = 'none';
+
+            initTableConfig(emptyResponse);
             buildPagination(arr);
 
         })
 }
 
-
-const initTableConfig = () => {
+const initTableConfig = (emptyResponse) => {
     let table = document.createElement('table');
+    
     table.classList.add("table")
     
     const thead = document.createElement("thead");
-    table.appendChild(thead);
+
+    if(emptyResponse === false) {
+        table.appendChild(thead);
+    }
 
     thead.innerHTML = "";
     const titlesTable = ["Tipo de Receita", "Valor", "Data de Entrada", "Id", "Ações"];

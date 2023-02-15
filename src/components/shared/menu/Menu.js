@@ -12,6 +12,7 @@ class Menu extends HTMLElement {
 		console.log('connected!', this);
         setTimeout(() => {
             getImageUser();
+            messageWelcome();
         }, 1000);
     }
 
@@ -31,6 +32,30 @@ const getImageUser = () => {
       let url = 'data:image/jpg;base64,' + res.image;
       img.src = url;
     })
+}
+
+const messageWelcome = () => {
+    const messageContainer = document.querySelector('.message');
+    const nameUser = JSON.parse(localStorage.getItem('userInfo'))
+    let showNameUser = nameUser.name;
+
+    let message;
+    let hour = new Date().getHours();
+    if(hour <= 5) {
+      message = 'Boa madrugada!';
+      return;
+    }
+    if(hour < 12) {
+        message = 'Bom dia!';
+      return;
+    }
+    if(hour < 18) {
+        message = 'Boa tarde!';
+      return;
+    }
+    message = 'Boa noite';
+
+    messageContainer.innerHTML = `Olá <strong>${showNameUser}</strong>, ${message}`
 }
 
 if('customElements' in window) {
