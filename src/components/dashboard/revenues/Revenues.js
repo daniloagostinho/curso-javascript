@@ -14,10 +14,9 @@ class Revenues extends HTMLElement {
             defineInitMonth();
             getRegisterRevenues();
             animationInput(); 
-            initTableConfig();
         }, 1000)
 	}
-''
+
     disconnectedCallback () {
 		console.log('disconnected', this);
 	}
@@ -29,7 +28,6 @@ let emptyResponse;
 const itemsPerPage = 3;
 let currentPage = 1;
 let arrRevenues;
-let showTable = false;
 
 let tbody;
 
@@ -40,14 +38,25 @@ const defineInitMonth = () => {
     monthSelected == undefined ? (monthSelected = letterDateString) : monthSelected
   }
 
-  
-const getRegisterRevenues = async () => {
+const selectElementsDom = () => {
     const spinner = document.querySelector('.spinner-border');
     const blockRevenuesSearch = document.querySelector('.block-revenues-search');
     const myPagination = document.querySelector('nav.my-pagination');
     const blockRegisterRecipes = document.querySelector('.block-register-recipes');
 
-    spinner.style.display = 'block';
+    return {
+        spinner,
+        blockRegisterRecipes,
+        blockRevenuesSearch,
+        myPagination
+    }
+}
+  
+const getRegisterRevenues = async () => {
+    console.log(selectElementsDom())
+    const selectElements = selectElementsDom();
+
+    selectElements.spinner.style.display = 'block';
 
     const user = localStorage.getItem('user');
     window.getRegisterRevenues('http://localhost:3000/list/revenues', monthSelected, user)
@@ -56,22 +65,25 @@ const getRegisterRevenues = async () => {
             let arr = [];
             if(response.result.length === 0) {
                 emptyResponse = true;
-                blockRegisterRecipes.style.display = 'block';       
+                selectElements.blockRegisterRecipes.style.display = 'block';       
             } else {
                 response.result.forEach(revenue => {
                     arr.push(revenue.user.month.listMonth)
                 })
                 emptyResponse = false;
-                blockRevenuesSearch.style.display = 'block';
-                myPagination.style.display = 'block';
-                blockRegisterRecipes.style.display = 'none';
+                selectElements.blockRevenuesSearch.style.display = 'block';
+                selectElements.myPagination.style.display = 'block';
+                selectElements.blockRegisterRecipes.style.display = 'none';
                 arrRevenues = arr;
-                showTable = true;
             }
-            spinner.style.display = 'none';
+            selectElements.spinner.style.display = 'none';
 
-            buildPagination(arr);
-
+            if (emptyResponse === false) {
+                initTableConfig();
+                buildPagination(arr);
+            } else {
+                removeTableConfig();
+            }
         })
 }
 
@@ -82,7 +94,7 @@ const initTableConfig = () => {
     
     const thead = document.createElement("thead");
     thead.innerHTML = "";
-
+    
     table.appendChild(thead);
 
     const titlesTable = ["Tipo de Receita", "Valor", "Data de Entrada", "Id", "Ações"];
@@ -99,6 +111,11 @@ const initTableConfig = () => {
     document.querySelector('.table-container').appendChild(table);
     tbody = document.createElement('tbody');
     table.appendChild(tbody)
+};
+
+const removeTableConfig = () => {
+    const tableContainer = document.querySelector('.table-container');
+    tableContainer.innerHTML = '';
 };
 
 const updateTableRows  = (arr) => {
