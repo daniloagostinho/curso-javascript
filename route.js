@@ -1,6 +1,6 @@
 const routes = {
-    "/": "<app-login></app-login>",
-    "/index.html": "<app-login></app-login>",
+    "/": "<app-dashboard></app-dashboard>",
+    "/index.html": "<app-dashboard></app-dashboard>",
     "/dashboard": "<app-dashboard></app-dashboard>"
 };
 

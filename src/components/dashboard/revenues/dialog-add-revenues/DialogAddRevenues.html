@@ -2,14 +2,14 @@
   type="button"
   class="btn modal btn-primary dialog-add-revenues"
   data-toggle="modal"
-  data-target="#modalRegistrationContinuation"
+  data-target="#modalDialogAddrevenues"
   style="display: none"
 ></button>
 
 <!-- Modal -->
 <div
   class="modal dialog-add-revenues fade"
-  id="modalRegistrationContinuation"
+  id="modalDialogAddrevenues"
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
@@ -31,18 +31,8 @@
       </div>
       <div class="modal-body">
         <form class="dialog-add-revenues-form">
-          <div class="form-group">
-            <label for="typeRevenue">Tipo de Receita</label>
-            <select
-              name="typeRevenue"
-              id="typeRevenue"
-              class="form-control typeRevenue"
-              autocomplete="off"
-            >
-            <!--ISERERIR OPTION VIA JS-->
-            <option value="Selecione o tipo de receita" selected>Selecione o tipo de receita</option>
-            </select>
-          </div>
+          <!-- INCLUIR SELECT AQUI DINAMICAMENTE COM JS -->
+          <div class="form-group select-container"></div>
         
           <div class="form-group">
             <label for="value">Valor</label>
@@ -80,7 +70,7 @@
             </div>
           </div>
         
-          <button class="btn btn-primary add-revenues" data-dismiss="modal" type="submit" onclick="handleAddRevenues(event)">Adicionar Receita</button>
+          <button class="btn btn-primary add-revenues btn-block" data-dismiss="modal" type="submit" onclick="handleAddRevenues(event)">Adicionar</button>
         </form>
         
       </div>

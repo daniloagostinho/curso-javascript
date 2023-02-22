@@ -12,7 +12,7 @@ class DialogAddRevenues extends HTMLElement {
 
   connectedCallback() {
     setTimeout(() => {
-      createOptionsForSelect();
+      createSelectElement();
     }, 1000)
   }
 
@@ -69,17 +69,41 @@ let setStoreRevenues = {};
 
 let monthDialogAddRevenues;
 
-const createOptionsForSelect = () => {
-  const select = document.querySelector('select');
+const createSelectElement = () => {
+  // criar o elemento select
+  const select = document.createElement('select');
+  
+  // adicionar classes CSS ao select
+  select.classList.add('form-control');
+  select.classList.add('typeRevenue');
+  
+  // criar um elemento label e adicionar ao container
+  const label = document.createElement('label');
+  label.textContent = 'Tipo de Receita';
+  document.querySelector('.select-container').appendChild(label);
+  
+  // criar a primeira opção (selecionada por padrão)
+  const optionSelected = document.createElement('option');
+  optionSelected.selected = true;
+  optionSelected.textContent = 'Selecione o tipo de receita';
+  
+  // criar as outras opções com base em um array de objetos
   const options = typeRevenues
-      .filter((_, index) => index <= 7)
+      .filter((_, index) => index <= 7) // filtrar apenas as primeiras 8 opções
       .map(revenue => {
+          // criar um elemento option para cada tipo de receita
           const option = document.createElement('option');
           option.textContent = revenue.name;
           option.value = revenue.name;
           return option;
       });
+  
+  // adicionar a primeira opção e as demais ao select
+  select.append(optionSelected);
   select.append(...options);
+  
+  // adicionar o select ao container
+  document.querySelector('.select-container').appendChild(select);
 }
 
 const checkAddRevenuesModalOpen = () => {
@@ -106,9 +130,10 @@ const formatCurrency = (event) => {
 
     event.target.value = currency;
 
-    const replaceSymbol = currency.replace('R$', '');
-    const replaceComma = replaceSymbol.replace(',', '.').trim();
-    valueDialogAddRevenues =  parseFloat(replaceComma.replace('.', '')).toFixed();
+    valueDialogAddRevenues = parseFloat(filterValue / 100);
+
+    console.log(valueDialogAddRevenues);
+    
 }
 
 const disableFutureDates = () => {

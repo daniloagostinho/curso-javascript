@@ -14,6 +14,7 @@ class Revenues extends HTMLElement {
             defineInitMonth();
             getRegisterRevenues();
             animationInput(); 
+            initTableConfig();
         }, 1000)
 	}
 ''
@@ -40,7 +41,7 @@ const defineInitMonth = () => {
   }
 
   
-  const getRegisterRevenues = async () => {
+const getRegisterRevenues = async () => {
     const spinner = document.querySelector('.spinner-border');
     const blockRevenuesSearch = document.querySelector('.block-revenues-search');
     const myPagination = document.querySelector('nav.my-pagination');
@@ -69,24 +70,21 @@ const defineInitMonth = () => {
             }
             spinner.style.display = 'none';
 
-            initTableConfig(emptyResponse);
             buildPagination(arr);
 
         })
 }
 
-const initTableConfig = (emptyResponse) => {
+const initTableConfig = () => {
     let table = document.createElement('table');
     
     table.classList.add("table")
     
     const thead = document.createElement("thead");
-
-    if(emptyResponse === false) {
-        table.appendChild(thead);
-    }
-
     thead.innerHTML = "";
+
+    table.appendChild(thead);
+
     const titlesTable = ["Tipo de Receita", "Valor", "Data de Entrada", "Id", "Ações"];
 
     const headerRow = document.createElement("tr");

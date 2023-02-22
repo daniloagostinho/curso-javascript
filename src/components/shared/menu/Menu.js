@@ -41,21 +41,21 @@ const messageWelcome = () => {
 
     let message;
     let hour = new Date().getHours();
+    
     if(hour <= 5) {
       message = 'Boa madrugada!';
-      return;
     }
-    if(hour < 12) {
+    else if(hour < 12) {
         message = 'Bom dia!';
-      return;
     }
-    if(hour < 18) {
+    else if(hour < 18) {
         message = 'Boa tarde!';
-      return;
     }
-    message = 'Boa noite';
+    else {
+        message = 'Boa noite';
+    }
 
-    messageContainer.innerHTML = `Olá <strong>${showNameUser}</strong>, ${message}`
+    messageContainer.innerHTML = `Olá <strong>${showNameUser}</strong>, ${message}`;
 }
 
 if('customElements' in window) {
