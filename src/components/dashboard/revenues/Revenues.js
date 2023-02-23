@@ -195,7 +195,6 @@ const searchRevenues = (event) => {
       updateTableRows(paginatedArray);
   
     } else {
-      // Não há resultados
       noResult.style.display = "block";
       const tableBody = document.querySelector('.table tbody');
       tableBody.innerHTML = ''
@@ -216,7 +215,7 @@ const buildPagination = (arr) => {
     if (arr.length <= itemsPerPage) {
         next.disabled = true;
     }
-    
+
     updateTableRows(paginate(arr, itemsPerPage, currentPage));    
   
     for (const pageLink of pageLinks) {
