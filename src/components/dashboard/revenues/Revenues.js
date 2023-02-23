@@ -39,13 +39,13 @@ const defineInitMonth = () => {
   }
 
 const selectElementsDom = () => {
-    const spinner = document.querySelector('.spinner-border');
+    const spinnerContainer = document.querySelector('.spinner-border');
     const blockRevenuesSearch = document.querySelector('.block-revenues-search');
     const myPagination = document.querySelector('nav.my-pagination');
     const blockRegisterRecipes = document.querySelector('.block-register-recipes');
 
     return {
-        spinner,
+        spinnerContainer,
         blockRegisterRecipes,
         blockRevenuesSearch,
         myPagination
@@ -53,10 +53,10 @@ const selectElementsDom = () => {
 }
   
 const getRegisterRevenues = async () => {
-    console.log(selectElementsDom())
     const selectElements = selectElementsDom();
 
-    selectElements.spinner.style.display = 'block';
+    selectElements.spinnerContainer.style.display = 'block';
+
 
     const user = localStorage.getItem('user');
     window.getRegisterRevenues('http://localhost:3000/list/revenues', monthSelected, user)
@@ -76,47 +76,44 @@ const getRegisterRevenues = async () => {
                 selectElements.blockRegisterRecipes.style.display = 'none';
                 arrRevenues = arr;
             }
-            selectElements.spinner.style.display = 'none';
+            selectElements.spinnerContainer.style.display = 'none';
 
             if (emptyResponse === false) {
                 initTableConfig();
                 buildPagination(arr);
-            } else {
-                removeTableConfig();
             }
         })
 }
 
 const initTableConfig = () => {
     let table = document.createElement('table');
-    
-    table.classList.add("table")
-    
-    const thead = document.createElement("thead");
-    thead.innerHTML = "";
-    
-    table.appendChild(thead);
+    table.classList.add("table");
 
-    const titlesTable = ["Tipo de Receita", "Valor", "Data de Entrada", "Id", "Ações"];
+    let thead = document.querySelector('thead');
 
-    const headerRow = document.createElement("tr");
+    if (!thead) {
+        thead = document.createElement("thead");
+        const headerRow = document.createElement("tr");
+        const titlesTable = ["Tipo de Receita", "Valor", "Data de Entrada", "Id", "Ações"];
 
-    titlesTable.forEach(title => {
-        const headerCell = document.createElement("th");
-        headerCell.textContent = title;
-        headerRow.appendChild(headerCell);
-    });
+        titlesTable.forEach(title => {
+            const headerCell = document.createElement("th");
+            headerCell.textContent = title;
+            headerRow.appendChild(headerCell);
+        });
 
-    thead.appendChild(headerRow);
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+    }
+
+    if (!tbody) {
+        tbody = document.createElement('tbody');
+        table.appendChild(tbody);
+    }
+
     document.querySelector('.table-container').appendChild(table);
-    tbody = document.createElement('tbody');
-    table.appendChild(tbody)
 };
 
-const removeTableConfig = () => {
-    const tableContainer = document.querySelector('.table-container');
-    tableContainer.innerHTML = '';
-};
 
 const updateTableRows  = (arr) => {
     tbody.innerHTML = "";
@@ -216,7 +213,11 @@ const buildPagination = (arr) => {
     const prev = document.querySelector('.prev');
     const next = document.querySelector('.next');
 
-    updateTableRows(paginate(arr, itemsPerPage, currentPage));
+    if (arr.length <= itemsPerPage) {
+        next.disabled = true;
+    }
+    
+    updateTableRows(paginate(arr, itemsPerPage, currentPage));    
   
     for (const pageLink of pageLinks) {
         pageLink.addEventListener('click', (event) => {
