@@ -2,14 +2,14 @@
   type="button"
   class="btn modal btn-primary dialog-update-revenues"
   data-toggle="modal"
-  data-target="#modalDialogAddrevenues"
+  data-target="#modalDialogAddUpdateRevenues"
   style="display: none"
 ></button>
 
 <!-- Modal -->
 <div
   class="modal dialog-add-revenues fade"
-  id="modalDialogAddrevenues"
+  id="modalDialogAddUpdateRevenues"
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
@@ -30,49 +30,41 @@
         </button>
       </div>
       <div class="modal-body">
-        <form class="dialog-add-revenues-form">
-          <!-- INCLUIR SELECT AQUI DINAMICAMENTE COM JS -->
-          <div class="form-group select-container"></div>
-        
-          <div class="form-group">
-            <label for="value">Valor</label>
-            <input
-              type="text"
-              class="form-control valueDialogAddRevenues"
-              name="value"
-              id="value"
-              aria-describedby="value"
-              autocomplete="off"
-              oninput="formatCurrency(event)"
-            />
-          </div>
-          <div class="form-group">
-            <label for="dateEntry">Data de Entrada</label>
-            <input
-              type="date"
-              class="form-control dateEntry"
-              id="dateEntry"
-              name="dateEntry"
-              aria-describedby="dateEntry"
-            />
-          </div>
-        
-          <div class="form-group">
-            <div class="form-check">
-              <input
-                class="form-check-input fixedRevenue"
-                type="checkbox"
-                value="fixedRevenue"
-                name="fixedRevenue"
-                id="fixedRevenue"
-              />
-              <label class="form-check-label" for="fixedRevenue"> Receita Fixa </label>
+      
+        <form>
+            <div class="form-group">
+                <div class="form-group select-container-update-revenues"></div>
+                <label for="typeRevenue">Tipo de Receita</label>
             </div>
-          </div>
-        
-          <button class="btn btn-primary add-revenues btn-block" data-dismiss="modal" type="submit" onclick="handleAddRevenues(event)">Adicionar</button>
-        </form>
-        
+
+            <div class="form-group">
+                <label for="value">Valor</label>
+                <input
+                type="text"
+                class="form-control"
+                id="value"
+                name="value"
+                aria-describedby="value"
+                formControlName="value"
+                currencyMask
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="dateEntry">Data de Entrada</label>
+                <input
+                type="date"
+                class="form-control"
+                id="dateEntry"
+                name="dateEntry"
+                aria-describedby="dateEntry"
+                formControlName="dateEntry"
+                onkeydown="return false"
+                />
+            </div>
+            
+            <button class="btn btn-primary">Atualizar Receita</button>
+        </form>        
       </div>
     </div>
   </div>

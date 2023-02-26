@@ -111,6 +111,26 @@ const initTableConfig = () => {
         table.appendChild(tbody);
     }
 
+    // Adiciona o ouvinte de eventos ao tbody
+    tbody.addEventListener('click', event => {
+        // Verifica se o elemento clicado é uma imagem
+        if (event.target.tagName === 'IMG') {
+            // Obtém o elemento pai do elemento clicado
+            const tr = event.target.closest('tr');
+            // Obtém a imagem clicada
+            const image = event.target.getAttribute('src');
+            // Cria um objeto com as informações do elemento clicado
+            const item = {
+                typeRevenue: tr.children[0].textContent,
+                value: tr.children[1].textContent,
+                dateEntry: tr.children[2].textContent,
+                id: tr.children[3].textContent
+            };
+            // Chama a função captureClickedAction  
+            captureClickedAction(image, item);
+        }
+    });
+  
     document.querySelector('.table-container').appendChild(table);
 };
 
@@ -126,8 +146,8 @@ const updateTableRows  = (arr) => {
             <td>${item.dateEntry}</td>
             <td>${item._id}</td>
             <td>
-                <img class="image" onclick="captureClickedAction('${item.actions[0]}', '${item}')" src="${item.actions[0]}" />
-                <img class="image" onclick="captureClickedAction('${item.actions[1]}', '${item}')" src="${item.actions[1]}" />
+                <img class="image" src="${item.actions[0]}" />
+                <img class="image" src="${item.actions[1]}" />
             </td>
         `;
         tbody.appendChild(tr);
@@ -140,13 +160,16 @@ const currencyValue = (value) => {
     }).format(parseFloat(value / 100));
 }
 
-const captureClickedAction = (action, element) => {
+const captureClickedAction = (action, item) => {
     if(action.indexOf('edit.png') !== -1) {
-        alert('Open update!');
-        console.log(element)
+        console.log(item)    
+        const dialogUpdateRevenues = document.querySelector('.dialog-update-revenues');
+        dialogUpdateRevenues.click();
     } else {
         alert('Open remove!')
-        console.log(element)
+
+        console.log(item)    
+
     }
 }
 
@@ -276,7 +299,7 @@ const animationInput = () => {
     inputSearch.addEventListener('blur', (event) => {
         inputSearch.style.width = '163px';
         inputSearch.classList.add('animationCard');
-    })
+    })  
     console.log(inputSearch)
 }
 
