@@ -120,12 +120,16 @@ const initTableConfig = () => {
             // Obtém a imagem clicada
             const image = event.target.getAttribute('src');
             // Cria um objeto com as informações do elemento clicado
+            
             const item = {
                 typeRevenue: tr.children[0].textContent,
                 value: tr.children[1].textContent,
                 dateEntry: tr.children[2].textContent,
                 id: tr.children[3].textContent
             };
+
+            window.revenueSave.add = item;
+
             // Chama a função captureClickedAction  
             captureClickedAction(image, item);
         }
@@ -162,7 +166,6 @@ const currencyValue = (value) => {
 
 const captureClickedAction = (action, item) => {
     if(action.indexOf('edit.png') !== -1) {
-        console.log(item)    
         const dialogUpdateRevenues = document.querySelector('.dialog-update-revenues');
         dialogUpdateRevenues.click();
     } else {
@@ -174,12 +177,11 @@ const captureClickedAction = (action, item) => {
 }
 
 const checkAddRevenues = () => {
-    addRevenues = new Proxy({}, {
+    window.addRevenues = new Proxy({}, {
         set: function(target, property, value) {
 
             getRegisterRevenues();
 
-            console.log(target, property, value)
             target[property] = value;
         }
     });

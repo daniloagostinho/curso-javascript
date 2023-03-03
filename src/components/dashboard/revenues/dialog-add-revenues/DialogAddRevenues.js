@@ -161,7 +161,7 @@ const disableFutureDates = () => {
 const handleAddRevenues = async (event) => {
   event.preventDefault();
 
-  const { typeRevenue, value, dateEntry, fixedRevenue } = selecteInputsDom();
+  const { typeRevenue, value, dateEntry, fixedRevenue } = selectInputsDom();
 
   if (!verifyFieldFill(typeRevenue, value, dateEntry, fixedRevenue)) {
     const buttonAddRevenues = document.querySelector('.add-revenues')
@@ -194,7 +194,7 @@ const generatePortugueseDateFormat = () => {
 
 
 const generateMonthlyRecipePayload = () => {
-  const selectedInputs = selecteInputsDom();
+  const selectedInputs = selectInputsDom();
   const generatePortugueseDate = generatePortugueseDateFormat();
 
   const payload = {
@@ -231,18 +231,18 @@ checkMonthSetting();
 const registerFixedRecipe = async () => {
     const dateEntry = document.querySelector('.dateEntry').value;
     const dateReplace = dateEntry.replace(/-/g, '$').split('$');
-    const selectInputsDom = selecteInputsDom();
+    const selectInputs = selectInputsDom();
   
     for (const month of months) {
       const dateEntry = new Date(dateReplace[0], searchIndexMonth(month), dateReplace[2]);
       const payload = {
         user: {
-          title: selectInputsDom.user,
+          title: selectInputs.user,
           month: {
             title: month,
             listMonth: {
-              typeRevenue: selectInputsDom.typeRevenue,
-              value: selectInputsDom.value,
+              typeRevenue: selectInputs.typeRevenue,
+              value: selectInputs.value,
               dateEntry
             }
           }
@@ -268,7 +268,7 @@ const registerFixedRecipe = async () => {
     };
 };
 
-const selecteInputsDom = () => {
+const selectInputsDom = () => {
     const typeRevenue = document.querySelector('.typeRevenue').value;
     const value = valueDialogAddRevenues;
     const dateEntry = document.querySelector('.dateEntry').value;
