@@ -75,18 +75,15 @@ checkUpdateRevenues();
 
 const updateSelectTypeRevenue = (optionSelected) => {
     const selectUpdate = document.querySelector('.select-update-container > select');
-    selectUpdate.options[0].select = true;
-    selectUpdate.options[0].text = optionSelected;
 
-    const options = selectUpdate.options;
-
-    Array.from(options).forEach((option) => {
-        console.log(option.value);
+    for(let i = 0; i < selectUpdate.length; i++) {
+        const option = selectUpdate.options[i];
 
         if(option.value === optionSelected) {
-            document.querySelector(`option[value=${option.value}]`).remove()
+            option.selected = true;
+            break;
         }
-    });
+    }
 }
  
 const createSelectUpdateElement = () => {
@@ -104,10 +101,6 @@ const createSelectUpdateElement = () => {
     
     document.querySelector('.select-update-container').appendChild(label);
 
-
-    // criar a primeira opção (selecionada por padrão)
-    const optionUpdateSelected = document.createElement('option');
-
     // criar as outras opções com base em um array de objetos
     const options = typeUpdateRevenues
         .filter((_, index) => index <= 7) // filtrar apenas as primeiras 8 opções
@@ -119,7 +112,6 @@ const createSelectUpdateElement = () => {
             return option;
         });
 
-    select.append(optionUpdateSelected);
     select.append(...options);
 
     // adicionar o select ao container
